@@ -1,0 +1,31 @@
+{
+  "name": "opimby",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro build && wrangler dev",
+    "deploy": "astro build && wrangler deploy",
+    "check": "astro check && tsc -p worker",
+    "types": "wrangler types worker/worker-configuration.d.ts --strict-vars=false",
+    "db:migrate:local": "wrangler d1 migrations apply opimby --local",
+    "db:migrate:remote": "wrangler d1 migrations apply opimby --remote",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^7.3.5",
+    "jose": "^6.2.12"
+  },
+  "allowScripts": {
+    "esbuild": true
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6",
+    "wrangler": "^4.143.0"
+  }
+}
