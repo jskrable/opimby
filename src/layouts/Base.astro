@@ -7,9 +7,12 @@ interface Props {
   description?: string;
 }
 
-const { title, description = "[PLACEHOLDER: site description]" } = Astro.props;
+const { title, description = "A harm reduction advocacy group in Kensington, Philadelphia. Every Tuesday we hand out hot meals, clothing, hygiene items, naloxone, test strips, safer consumption kits, and more." } = Astro.props;
 const pageTitle = title ? `${title} | ${site.name}` : site.name;
 const path = Astro.url.pathname;
+
+// "page" on the exact page; "true" on the pages under a section, e.g. Donate on /donate/items/.
+const current = (href: string) => (path === href ? "page" : href !== "/" && path.startsWith(href) ? "true" : undefined);
 
 const nav = [
   { href: "/", label: "Home" },
@@ -26,7 +29,9 @@ const nav = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="preload" href="/fonts/special-elite.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/anton.woff2" as="font" type="font/woff2" crossorigin />
     <slot name="head" />
@@ -42,7 +47,7 @@ const nav = [
         <ul>
           {nav.map((item) => (
             <li>
-              <a href={item.href} aria-current={path === item.href ? "page" : undefined}>{item.label}</a>
+              <a href={item.href} aria-current={current(item.href)}>{item.label}</a>
             </li>
           ))}
         </ul>
@@ -58,8 +63,7 @@ const nav = [
         <ul>
           <li><a href={site.links.instagram}>Instagram</a></li>
           <li><a href={site.links.facebook}>Facebook</a></li>
-          <li><a href={site.links.amazonWishlist}>Amazon Wish List</a></li>
-          <li><a href={site.links.paypal}>PayPal Giving Fund</a></li>
+          <li><a href="/friends/">Friends</a></li>
         </ul>
       </nav>
       <p>EIN: {site.ein}</p>

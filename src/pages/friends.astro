@@ -1,0 +1,11 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../site";
+---
+
+<Base title="Friends">
+  <h1>Friends</h1>
+  <ul class="link-list">
+    {site.friends.map((f) => <li><a href={f.url}>{f.name}</a></li>)}
+  </ul>
+</Base>

@@ -1,0 +1,49 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { CONTACT_MESSAGES, EMAIL_PATTERN, tooLongMessage } from "../../forms/common";
+
+interface Props {
+  name: string;
+  label: string;
+  type?: "text" | "email" | "tel" | "textarea";
+  required?: boolean;
+  maxlength: number;
+  autocomplete?: HTMLAttributes<"input">["autocomplete"];
+  rows?: number;
+  requiredMessage?: string;
+  value?: string;
+  error?: string;
+}
+
+const { name, label, type = "text", required = false, maxlength, autocomplete, rows = 5, requiredMessage, value, error } = Astro.props;
+
+const pattern = type === "email" ? EMAIL_PATTERN : undefined;
+const formatMessage =
+  type === "email" ? CONTACT_MESSAGES.emailFormat : type === "tel" ? CONTACT_MESSAGES.phoneFormat : undefined;
+const errorId = `${name}-error`;
+
+const control = {
+  id: name,
+  name,
+  required,
+  maxlength,
+  "aria-invalid": error ? true : undefined,
+  "aria-describedby": error ? errorId : undefined,
+  "data-format": type === "tel" ? "phone" : undefined,
+  "data-msg-required": requiredMessage,
+  "data-msg-format": formatMessage,
+  "data-msg-too-long": tooLongMessage(maxlength),
+};
+---
+
+<div class:list={["field", { "field--error": error }]} data-field={name}>
+  <label for={name}>{label}</label>
+  <p class="field-error" id={errorId} hidden={!error}>{error && <><span class="visually-hidden">Error: </span>{error}</>}</p>
+  {
+    type === "textarea" ? (
+      <textarea {...control} rows={rows}>{value}</textarea>
+    ) : (
+      <input {...control} type={type} value={value} pattern={pattern} autocomplete={autocomplete} spellcheck={type === "email" ? "false" : undefined} />
+    )
+  }
+</div>

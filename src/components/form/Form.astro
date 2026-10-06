@@ -1,0 +1,42 @@
+---
+import { HONEYPOT } from "../../forms/common";
+import { site } from "../../site";
+import type { FormErrors } from "./state";
+
+interface Props {
+  action: string;
+  submitLabel: string;
+  errors: FormErrors | null;
+}
+
+const { action, submitLabel, errors } = Astro.props;
+const fieldErrors = Object.entries(errors?.fields ?? {});
+---
+
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<form method="post" action={action} data-validate>
+  <slot />
+
+  <p hidden aria-hidden="true">
+    <label for={HONEYPOT}>Leave this empty</label>
+    <input id={HONEYPOT} name={HONEYPOT} type="text" tabindex="-1" autocomplete="off" />
+  </p>
+
+  <div class="cf-turnstile" data-sitekey={site.turnstileSiteKey} data-theme="dark" data-appearance="interaction-only"></div>
+
+  <div class="error-summary" role="alert" tabindex="-1" aria-labelledby="error-summary-title" hidden={!errors}>
+    <h2 id="error-summary-title">There is a problem</h2>
+    <ul>
+      {fieldErrors.map(([name, message]) => <li><a href={`#${name}`}>{message}</a></li>)}
+      {errors?.message && <li>{errors.message}</li>}
+    </ul>
+  </div>
+
+  <p><button type="submit">{submitLabel}</button></p>
+</form>
+
+<script>
+  import { enhanceForms } from "../../scripts/form-validation";
+  enhanceForms();
+</script>

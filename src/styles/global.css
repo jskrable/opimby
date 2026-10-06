@@ -18,6 +18,7 @@
   --rule: #4a4550;
   --purple: #c9a3ff;
   --green: #8ef26b;
+  --red: #ff4d4d;
 
   --font-body: system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-type: "Special Elite", "Courier New", monospace;
@@ -71,7 +72,9 @@ a:hover {
 
 .skip-link:focus {
   position: static;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   margin-bottom: 0.75rem;
 }
 
@@ -86,6 +89,7 @@ body > header {
 .brand {
   display: inline-flex;
   align-items: center;
+  min-height: 44px;
   gap: 0.625rem;
   align-self: flex-start;
   color: var(--text);
@@ -110,15 +114,15 @@ body > header nav ul {
 }
 
 body > header nav a {
-  display: inline-block;
-  padding: 0.375rem 0;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   color: var(--text);
   text-decoration: none;
 }
 
-body > header nav a[aria-current="page"] {
-  padding-bottom: calc(0.375rem - 2px);
-  border-bottom: 2px solid var(--green);
+body > header nav a[aria-current] {
+  box-shadow: inset 0 -2px var(--green);
 }
 
 body > header nav a:hover {
@@ -166,6 +170,16 @@ main li + li {
   margin-top: 0.25rem;
 }
 
+/* Standalone links get a 44px touch target. Mark them explicitly: :only-child ignores text,
+   so it would also catch a single link inside a sentence. Links in sentences stay inline. */
+.link-list a,
+.standalone a,
+body > footer a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
 iframe {
   display: block;
   width: 100%;
@@ -177,7 +191,7 @@ form {
 }
 
 form > p,
-form > fieldset {
+.field {
   margin: 0 0 1.25rem;
 }
 
@@ -200,10 +214,14 @@ fieldset p {
   display: flex;
   align-items: center;
   gap: 0.625rem;
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.25rem;
 }
 
 fieldset label {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  min-height: 44px;
   font-size: 1rem;
 }
 
@@ -228,7 +246,8 @@ textarea:focus-visible {
   outline-offset: 0;
 }
 
-input[type="checkbox"] {
+input[type="checkbox"],
+input[type="radio"] {
   flex: none;
   width: 1.375rem;
   height: 1.375rem;
@@ -257,6 +276,46 @@ button:hover {
   border: 1px solid var(--purple);
 }
 
+.error-summary {
+  margin-bottom: 1.25rem;
+  border: 3px solid var(--red);
+}
+
+.error-summary h2 {
+  margin-top: 0;
+}
+
+.error-summary ul {
+  margin: 0;
+}
+
+.error-summary a {
+  color: var(--red);
+}
+
+.field--error {
+  padding-left: 0.75rem;
+  border-left: 3px solid var(--red);
+}
+
+.field-error {
+  margin: 0.25rem 0 0;
+  color: var(--red);
+}
+
+:is(input[type="text"], input[type="email"], input[type="tel"], textarea):is([aria-invalid="true"], :user-invalid) {
+  border: 2px solid var(--red);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 body > footer {
   padding-top: 1rem;
   border-top: 1px solid var(--rule);
@@ -267,6 +326,7 @@ body > footer {
 }
 
 body > footer nav ul {
+  align-items: center;
   margin-bottom: 0.5rem;
 }
 

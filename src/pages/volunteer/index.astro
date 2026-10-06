@@ -1,71 +1,38 @@
 ---
+import { actions } from "astro:actions";
+import ChoiceGroup from "../../components/form/ChoiceGroup.astro";
+import Field from "../../components/form/Field.astro";
+import Form from "../../components/form/Form.astro";
+import { formErrors, submittedValues } from "../../components/form/state";
+import { CONTACT_MAX, CONTACT_MESSAGES } from "../../forms/common";
+import { VOLUNTEER_INTEREST_LABELS, VOLUNTEER_INTERESTS, VOLUNTEER_MAX } from "../../forms/volunteer";
 import Base from "../../layouts/Base.astro";
-import { site } from "../../site";
-import { FIELD_MAX, HONEYPOT, VOLUNTEER_INTERESTS } from "../../../shared/volunteer";
+
+export const prerender = false;
+
+const result = Astro.getActionResult(actions.volunteer);
+if (result && !result.error) return Astro.redirect("/volunteer/thanks/", 303);
+
+const errors = formErrors(result?.error);
+const values = await submittedValues(Astro);
+const value = (name: string) => values.get(name)?.toString();
+const interests = VOLUNTEER_INTERESTS.map((v) => ({ value: v, label: VOLUNTEER_INTEREST_LABELS[v] }));
 ---
 
-<Base title="Volunteer">
-  <script slot="head" src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-
+<Base title={errors ? "Error: Volunteer" : "Volunteer"}>
   <h1>Volunteer</h1>
-  <p>[PLACEHOLDER: volunteer intro]</p>
+  <p>We're always looking for people who want to help, and you don't need any experience. Tell us a little about yourself below and we'll reach out.</p>
 
   <h2>What we need help with</h2>
   <ul>
-    {VOLUNTEER_INTERESTS.map((i) => <li>{i.label}</li>)}
+    {interests.map((i) => <li>{i.label}</li>)}
   </ul>
 
-  <p id="form-error" role="alert" hidden></p>
-
-  <form method="post" action="/api/volunteer">
-    <p>
-      <label for="name">Name</label><br />
-      <input id="name" name="name" type="text" autocomplete="name" maxlength={FIELD_MAX.name} required />
-    </p>
-    <p>
-      <label for="email">Email</label><br />
-      <input id="email" name="email" type="email" autocomplete="email" maxlength={FIELD_MAX.email} required />
-    </p>
-    <p>
-      <label for="phone">Phone (optional)</label><br />
-      <input id="phone" name="phone" type="tel" autocomplete="tel" maxlength={FIELD_MAX.phone} />
-    </p>
-
-    <fieldset>
-      <legend>How would you like to help?</legend>
-      {VOLUNTEER_INTERESTS.map((i) => (
-        <p>
-          <input id={`interest-${i.value}`} name="interests" type="checkbox" value={i.value} />
-          <label for={`interest-${i.value}`}>{i.label}</label>
-        </p>
-      ))}
-    </fieldset>
-
-    <p>
-      <label for="message">Message (optional)</label><br />
-      <textarea id="message" name="message" rows="5" maxlength={FIELD_MAX.message}></textarea>
-    </p>
-
-    <p hidden aria-hidden="true">
-      <label for={HONEYPOT}>Leave this empty</label>
-      <input id={HONEYPOT} name={HONEYPOT} type="text" tabindex="-1" autocomplete="off" />
-    </p>
-
-    <div class="cf-turnstile" data-sitekey={site.turnstileSiteKey} data-theme="dark"></div>
-
-    <p><button type="submit">Sign up</button></p>
-  </form>
-
-  <script is:inline>
-    const messages = {
-      verify: "Verification failed. Please try again.",
-      invalid: "Please enter your name and a valid email address.",
-    };
-    const code = new URLSearchParams(location.search).get("error");
-    if (code && messages[code]) {
-      const el = document.getElementById("form-error");
-      el.textContent = messages[code];
-      el.hidden = false;
-    }
-  </script>
+  <Form action={actions.volunteer} submitLabel="Sign up" errors={errors}>
+    <Field name="name" label="Name" autocomplete="name" maxlength={CONTACT_MAX.name} required requiredMessage={CONTACT_MESSAGES.name} value={value("name")} error={errors?.fields.name} />
+    <Field name="email" label="Email" type="email" autocomplete="email" maxlength={CONTACT_MAX.email} required requiredMessage={CONTACT_MESSAGES.email} value={value("email")} error={errors?.fields.email} />
+    <Field name="phone" label="Phone (optional)" type="tel" autocomplete="tel" maxlength={CONTACT_MAX.phone} value={value("phone")} error={errors?.fields.phone} />
+    <ChoiceGroup name="interests" legend="How would you like to help?" type="checkbox" options={interests} checked={values.getAll("interests").map(String)} error={errors?.fields.interests} />
+    <Field name="message" label="Message (optional)" type="textarea" maxlength={VOLUNTEER_MAX.message} value={value("message")} error={errors?.fields.message} />
+  </Form>
 </Base>

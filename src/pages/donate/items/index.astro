@@ -1,0 +1,34 @@
+---
+import { actions } from "astro:actions";
+import ChoiceGroup from "../../../components/form/ChoiceGroup.astro";
+import Field from "../../../components/form/Field.astro";
+import Form from "../../../components/form/Form.astro";
+import { formErrors, submittedValues } from "../../../components/form/state";
+import { CONTACT_MAX, CONTACT_MESSAGES } from "../../../forms/common";
+import { DONATION_MAX, DONATION_MESSAGES, DONATION_METHOD_LABELS, DONATION_METHODS } from "../../../forms/donation";
+import Base from "../../../layouts/Base.astro";
+
+export const prerender = false;
+
+const result = Astro.getActionResult(actions.donation);
+if (result && !result.error) return Astro.redirect("/donate/items/thanks/", 303);
+
+const errors = formErrors(result?.error);
+const values = await submittedValues(Astro);
+const value = (name: string) => values.get(name)?.toString();
+const methods = DONATION_METHODS.map((v) => ({ value: v, label: DONATION_METHOD_LABELS[v] }));
+---
+
+<Base title={errors ? "Error: Donate items" : "Donate items"}>
+  <h1>Donate items</h1>
+  <p>You can bring things by outreach any Tuesday at 6pm at Ruth and Somerset. Fill this out if you want to give us a heads-up or need a pickup, and we'll reach out.</p>
+
+  <Form action={actions.donation} submitLabel="Send" errors={errors}>
+    <Field name="name" label="Name" autocomplete="name" maxlength={CONTACT_MAX.name} required requiredMessage={CONTACT_MESSAGES.name} value={value("name")} error={errors?.fields.name} />
+    <Field name="email" label="Email" type="email" autocomplete="email" maxlength={CONTACT_MAX.email} required requiredMessage={CONTACT_MESSAGES.email} value={value("email")} error={errors?.fields.email} />
+    <Field name="phone" label="Phone (optional)" type="tel" autocomplete="tel" maxlength={CONTACT_MAX.phone} value={value("phone")} error={errors?.fields.phone} />
+    <Field name="items" label="What do you have?" type="textarea" maxlength={DONATION_MAX.items} required requiredMessage={DONATION_MESSAGES.items} value={value("items")} error={errors?.fields.items} />
+    <ChoiceGroup name="method" legend="How do you want to get it to us?" type="radio" options={methods} required requiredMessage={DONATION_MESSAGES.method} checked={values.getAll("method").map(String)} error={errors?.fields.method} />
+    <Field name="area" label="If you need a pickup, roughly where? Neighborhood or ZIP is fine." autocomplete="postal-code" maxlength={DONATION_MAX.area} value={value("area")} error={errors?.fields.area} />
+  </Form>
+</Base>

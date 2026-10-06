@@ -1,0 +1,40 @@
+---
+interface Props {
+  name: string;
+  legend: string;
+  type: "checkbox" | "radio";
+  options: readonly { value: string; label: string }[];
+  required?: boolean;
+  requiredMessage?: string;
+  checked?: string[];
+  error?: string;
+}
+
+const { name, legend, type, options, required = false, requiredMessage, checked = [], error } = Astro.props;
+const errorId = `${name}-error`;
+// The first option takes the group's name as its id so error links can target the group.
+// Required is checked on the group (client script and server) rather than with the native
+// attribute, which makes Chrome announce every unchecked radio as invalid on page load.
+const optionId = (i: number, value: string) => (i === 0 ? name : `${name}-${value}`);
+---
+
+<fieldset class:list={["field", { "field--error": error }]} data-field={name} data-required={required ? "" : undefined} data-msg-required={requiredMessage}>
+  <legend>{legend}</legend>
+  <p class="field-error" id={errorId} hidden={!error}>{error && <><span class="visually-hidden">Error: </span>{error}</>}</p>
+  {
+    options.map((o, i) => (
+      <p>
+        <input
+          id={optionId(i, o.value)}
+          name={name}
+          type={type}
+          value={o.value}
+          checked={checked.includes(o.value)}
+          aria-invalid={error ? "true" : undefined}
+          aria-describedby={error ? errorId : undefined}
+        />
+        <label for={optionId(i, o.value)}>{o.label}</label>
+      </p>
+    ))
+  }
+</fieldset>

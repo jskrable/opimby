@@ -6,26 +6,29 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "dev": "astro dev",
+    "dev": "CLOUDFLARE_ENV=local astro dev",
     "build": "astro build",
-    "preview": "astro build && wrangler dev",
+    "preview": "CLOUDFLARE_ENV=local astro build && CLOUDFLARE_ENV=local astro preview",
     "deploy": "astro build && wrangler deploy",
-    "check": "astro check && tsc -p worker",
-    "types": "wrangler types worker/worker-configuration.d.ts --strict-vars=false",
+    "check": "astro check",
+    "types": "wrangler types --strict-vars=false",
     "db:migrate:local": "wrangler d1 migrations apply opimby --local",
     "db:migrate:remote": "wrangler d1 migrations apply opimby --remote",
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^14.3.4",
     "astro": "^7.3.5",
-    "jose": "^6.2.12"
+    "jose": "^6.2.12",
+    "libphonenumber-js": "^1.13.14"
   },
   "allowScripts": {
     "esbuild": true
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@types/node": "^26.6.4",
     "typescript": "^6",
-    "wrangler": "^4.143.0"
+    "wrangler": "^4.147.0"
   }
 }

@@ -1,30 +1,62 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "opimby",
-  "main": "worker/index.ts",
   "compatibility_date": "2026-09-01",
+  "routes": [
+    { "pattern": "opimby.org", "custom_domain": true },
+    { "pattern": "www.opimby.org", "custom_domain": true }
+  ],
+  // No not_found_handling: it serves the static 404 page to browser navigations before the
+  // Worker sees them, which hides the on-demand pages. Astro renders 404s itself.
   "assets": {
     "directory": "./dist",
-    "binding": "ASSETS",
-    "not_found_handling": "404-page",
-    "run_worker_first": ["/api/*", "/admin", "/admin/"]
+    "binding": "ASSETS"
   },
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "opimby",
-      // TODO: replace with the id from `bunx wrangler d1 create opimby`.
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "326038dd-c20f-412f-a11d-2d48cf404398",
       "migrations_dir": "migrations"
     }
   ],
+  // Public values only. Secrets go through `wrangler secret put`.
   "vars": {
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAFPTZ-NAWd1aje4y",
     // TODO: set from the Cloudflare Access app guarding /admin. Until then /admin returns 403.
     "ACCESS_TEAM_DOMAIN": "",
     "ACCESS_AUD": ""
   },
+  "secrets": {
+    "required": ["TURNSTILE_SECRET_KEY"]
+  },
   "observability": {
     // Off so volunteers' personal info never lands in request logs.
     "enabled": false
+  },
+  "env": {
+    // Local development only (CLOUDFLARE_ENV=local). Secrets come from .dev.vars.local, which a
+    // production build never reads. A plain .dev.vars would leak into production builds.
+    "local": {
+      "routes": [],
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "opimby",
+          "database_id": "326038dd-c20f-412f-a11d-2d48cf404398",
+          "migrations_dir": "migrations"
+        }
+      ],
+      "vars": {
+        // Cloudflare's always-pass test key.
+        "TURNSTILE_SITE_KEY": "1x00000000000000000000AA",
+        "ACCESS_TEAM_DOMAIN": "",
+        "ACCESS_AUD": "",
+        "ADMIN_DEV_BYPASS": "true"
+      },
+      "secrets": {
+        "required": ["TURNSTILE_SECRET_KEY"]
+      }
+    }
   }
 }
