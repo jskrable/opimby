@@ -1,10 +1,10 @@
-import { ACCESS_AUD, ACCESS_TEAM_DOMAIN, ADMIN_DEV_BYPASS } from "astro:env/server";
+import { env } from "cloudflare:workers";
 import { createRemoteJWKSet, jwtVerify } from "jose";
 
-// Access already guards /admin at the edge; verifying its JWT here keeps the route locked if
-// Access is misconfigured or the workers.dev hostname is hit directly.
+// Second check behind Access, for a misconfigured app or a request to the workers.dev hostname.
 export async function isAdmin(request: Request): Promise<boolean> {
-  if (ADMIN_DEV_BYPASS) return true;
+  if (env.ADMIN_DEV_BYPASS === "true") return true;
+  const { ACCESS_TEAM_DOMAIN, ACCESS_AUD } = env;
   if (!ACCESS_TEAM_DOMAIN || !ACCESS_AUD) return false;
 
   const token = request.headers.get("Cf-Access-Jwt-Assertion");

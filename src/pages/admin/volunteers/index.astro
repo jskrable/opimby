@@ -1,0 +1,40 @@
+---
+import AdminLayout from "../../../components/admin/AdminLayout.astro";
+import { formatSubmittedShort } from "../../../components/admin/format";
+import Pagination from "../../../components/admin/Pagination.astro";
+import { VOLUNTEER_INTEREST_SHORT_LABELS } from "../../../forms/volunteer";
+import { volunteers } from "../../../server/container";
+
+export const prerender = false;
+
+const { items, page, totalPages, total } = await volunteers.listPage(Astro.url.searchParams.get("page"));
+---
+
+<AdminLayout title="Volunteers">
+  <h1>Volunteer signups</h1>
+  {
+    total === 0 ? (
+      <p>No signups yet.</p>
+    ) : (
+      <>
+        <div class="table-scroll" role="region" aria-label="Volunteer signups" tabindex="0">
+          <table>
+            <thead>
+              <tr><th scope="col">Name</th><th scope="col">Submitted</th><th scope="col">Interests</th></tr>
+            </thead>
+            <tbody>
+              {items.map((a) => (
+                <tr>
+                  <th scope="row"><a href={`/admin/volunteers/${a.id}/`}>{a.name}</a></th>
+                  <td class="nowrap">{formatSubmittedShort(a.createdAt)}</td>
+                  <td>{a.interests.map((i) => VOLUNTEER_INTEREST_SHORT_LABELS[i] ?? i).join(", ") || "None picked"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <Pagination page={page} totalPages={totalPages} total={total} />
+      </>
+    )
+  }
+</AdminLayout>

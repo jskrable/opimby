@@ -7,6 +7,11 @@ export const DONATION_METHOD_LABELS: Record<DonationMethod, string> = {
   pickup: "I need a pickup",
 };
 
+export const DONATION_METHOD_SHORT_LABELS: Record<DonationMethod, string> = {
+  outreach: "Bringing to outreach",
+  pickup: "Needs pickup",
+};
+
 export const DONATION_MAX = { items: 2000, area: 100 } as const;
 
 export const DONATION_MESSAGES = {

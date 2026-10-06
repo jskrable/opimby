@@ -7,12 +7,9 @@ export default defineConfig({
   adapter: cloudflare({ imageService: 'passthrough' }),
   session: false,
   env: {
+    // Build-time values only: astro:env/server reads every secret on import, which breaks prerendering.
     schema: {
       TURNSTILE_SITE_KEY: envField.string({ context: 'client', access: 'public' }),
-      TURNSTILE_SECRET_KEY: envField.string({ context: 'server', access: 'secret' }),
-      ACCESS_TEAM_DOMAIN: envField.string({ context: 'server', access: 'public', default: '' }),
-      ACCESS_AUD: envField.string({ context: 'server', access: 'public', default: '' }),
-      ADMIN_DEV_BYPASS: envField.boolean({ context: 'server', access: 'public', default: false }),
     },
   },
 });

@@ -26,15 +26,28 @@ export function createDonationRepository(db: D1Database) {
         .run();
     },
 
-    async listRecent(limit: number): Promise<DonationSubmission[]> {
+    async count(): Promise<number> {
+      const row = await db.prepare(`SELECT COUNT(*) AS n FROM donation_submissions`).first<{ n: number }>();
+      return row?.n ?? 0;
+    },
+
+    async list(limit: number, offset: number): Promise<DonationSubmission[]> {
       const { results } = await db
         .prepare(
           `SELECT id, name, email, phone, items, method, area, created_at
-           FROM donation_submissions ORDER BY created_at DESC LIMIT ?`,
+           FROM donation_submissions ORDER BY created_at DESC, id DESC LIMIT ? OFFSET ?`,
         )
-        .bind(limit)
+        .bind(limit, offset)
         .all<Row>();
       return results.map(toSubmission);
+    },
+
+    async findById(id: number): Promise<DonationSubmission | null> {
+      const row = await db
+        .prepare(`SELECT id, name, email, phone, items, method, area, created_at FROM donation_submissions WHERE id = ?`)
+        .bind(id)
+        .first<Row>();
+      return row ? toSubmission(row) : null;
     },
   };
 }

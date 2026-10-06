@@ -2,24 +2,30 @@
 import { site } from "../site";
 import "../styles/global.css";
 
+export type NavItem = { href: string; label: string };
+
 interface Props {
   title?: string;
   description?: string;
+  nav?: NavItem[];
+  footer?: boolean;
+  noindex?: boolean;
 }
 
-const { title, description = "A harm reduction advocacy group in Kensington, Philadelphia. Every Tuesday we hand out hot meals, clothing, hygiene items, naloxone, test strips, safer consumption kits, and more." } = Astro.props;
-const pageTitle = title ? `${title} | ${site.name}` : site.name;
-const path = Astro.url.pathname;
-
-// "page" on the exact page; "true" on the pages under a section, e.g. Donate on /donate/items/.
-const current = (href: string) => (path === href ? "page" : href !== "/" && path.startsWith(href) ? "true" : undefined);
-
-const nav = [
+const SITE_NAV: NavItem[] = [
   { href: "/", label: "Home" },
   { href: "/about/", label: "About" },
   { href: "/donate/", label: "Donate" },
   { href: "/volunteer/", label: "Volunteer" },
 ];
+
+const { title, description = "A harm reduction advocacy group in Kensington, Philadelphia. Every Tuesday we hand out hot meals, clothing, hygiene items, naloxone, test strips, safer consumption kits, and more.", nav = SITE_NAV, footer = true, noindex = false } = Astro.props;
+const pageTitle = title ? `${title} | ${site.name}` : site.name;
+const path = Astro.url.pathname;
+
+// "true" marks the section on its sub-pages; items that prefix others ("/", "/admin/") match exactly.
+const isRoot = (href: string) => nav.some((n) => n.href !== href && n.href.startsWith(href));
+const current = (href: string) => (path === href ? "page" : !isRoot(href) && path.startsWith(href) ? "true" : undefined);
 ---
 
 <!doctype html>
@@ -29,6 +35,7 @@ const nav = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
@@ -58,6 +65,7 @@ const nav = [
       <slot />
     </main>
 
+    {footer && (
     <footer>
       <nav aria-label="Social">
         <ul>
@@ -69,5 +77,6 @@ const nav = [
       <p>EIN: {site.ein}</p>
       <p>Contact: <a href={`mailto:${site.email}`}>{site.email}</a></p>
     </footer>
+    )}
   </body>
 </html>

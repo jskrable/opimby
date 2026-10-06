@@ -1,0 +1,43 @@
+---
+import AdminLayout from "../../../components/admin/AdminLayout.astro";
+import Contact from "../../../components/admin/Contact.astro";
+import { formatSubmitted } from "../../../components/admin/format";
+import { DONATION_METHOD_SHORT_LABELS } from "../../../forms/donation";
+import { donations } from "../../../server/container";
+
+export const prerender = false;
+
+const submission = await donations.get(Number(Astro.params.id));
+if (!submission) Astro.response.status = 404;
+---
+
+<AdminLayout title={submission?.name ?? "Not found"}>
+  <p class="standalone"><a href="/admin/donations/">All item donations</a></p>
+  {
+    !submission ? (
+      <>
+        <h1>Not found</h1>
+        <p>There's no donation with that number. It may have been deleted.</p>
+      </>
+    ) : (
+      <>
+        <h1>{submission.name}</h1>
+        <dl class="details">
+          <dt>Submitted</dt>
+          <dd>{formatSubmitted(submission.createdAt)}</dd>
+          <Contact email={submission.email} phone={submission.phone} />
+          <dt>Getting it to us</dt>
+          <dd>{DONATION_METHOD_SHORT_LABELS[submission.method] ?? submission.method}</dd>
+          {submission.method === "pickup" && (
+            <>
+              <dt>Pickup area</dt>
+              <dd>{submission.area ?? "Not given"}</dd>
+            </>
+          )}
+          <dt>Items</dt>
+          <dd class="prose">{submission.items}</dd>
+        </dl>
+      </>
+    )
+  }
+</AdminLayout>

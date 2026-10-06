@@ -5,9 +5,7 @@ type Control = HTMLInputElement | HTMLTextAreaElement;
 
 const PENDING_MESSAGE = "Still checking that you're a person. Try again in a few seconds.";
 
-// The browser does the checking (required, type, pattern, maxlength). This turns its validity
-// state into our messages, inline and in a focused error summary, matching the server-rendered
-// errors. appendChild rather than append: the global Workers types redefine Element.append.
+// appendChild, not append: the global Workers types redefine Element.append.
 export function enhanceForms() {
   document.querySelectorAll<HTMLFormElement>("form[data-validate]").forEach(enhance);
 }
@@ -47,8 +45,7 @@ function enhance(form: HTMLFormElement) {
   });
 }
 
-// Only reformat while typing at the end, so editing the middle doesn't move the caret, and
-// never on deletes, so backspacing past a ")" or "-" works.
+// Only at the end and never on delete, so editing mid-number and backspacing work.
 function formatPhone(event: Event) {
   const input = event.target as HTMLInputElement;
   const deleting = (event as InputEvent).inputType?.startsWith("delete");

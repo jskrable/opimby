@@ -3,7 +3,7 @@ export const TURNSTILE_FIELD = "cf-turnstile-response";
 
 export const CONTACT_MAX = { name: 100, email: 254, phone: 30 } as const;
 
-// HTML pattern syntax, which browsers compile with the `v` flag. The server uses the same string.
+// HTML pattern syntax (compiled with the `v` flag), shared by the input and the server.
 export const EMAIL_PATTERN = String.raw`[^\s@]+@[^\s@]+\.[^\s@]+`;
 
 export const matchesPattern = (pattern: string, value: string) => new RegExp(`^(?:${pattern})$`, "v").test(value);

@@ -25,15 +25,28 @@ export function createVolunteerRepository(db: D1Database) {
         .run();
     },
 
-    async listRecent(limit: number): Promise<VolunteerApplication[]> {
+    async count(): Promise<number> {
+      const row = await db.prepare(`SELECT COUNT(*) AS n FROM volunteer_applications`).first<{ n: number }>();
+      return row?.n ?? 0;
+    },
+
+    async list(limit: number, offset: number): Promise<VolunteerApplication[]> {
       const { results } = await db
         .prepare(
           `SELECT id, name, email, phone, interests, message, created_at
-           FROM volunteer_applications ORDER BY created_at DESC LIMIT ?`,
+           FROM volunteer_applications ORDER BY created_at DESC, id DESC LIMIT ? OFFSET ?`,
         )
-        .bind(limit)
+        .bind(limit, offset)
         .all<Row>();
       return results.map(toApplication);
+    },
+
+    async findById(id: number): Promise<VolunteerApplication | null> {
+      const row = await db
+        .prepare(`SELECT id, name, email, phone, interests, message, created_at FROM volunteer_applications WHERE id = ?`)
+        .bind(id)
+        .first<Row>();
+      return row ? toApplication(row) : null;
     },
   };
 }

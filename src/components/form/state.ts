@@ -15,7 +15,7 @@ export function formErrors(error: unknown): FormErrors | null {
   return { fields: {}, message: code === "FORBIDDEN" && message ? message : FALLBACK_MESSAGE };
 }
 
-// Actions don't hand back what was submitted, so re-read the POST body to refill the form.
+// Actions don't return the submitted values.
 export async function submittedValues(astro: AstroGlobal): Promise<FormData> {
   if (astro.request.method !== "POST") return new FormData();
   try {

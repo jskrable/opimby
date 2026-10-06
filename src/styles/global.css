@@ -170,8 +170,6 @@ main li + li {
   margin-top: 0.25rem;
 }
 
-/* Standalone links get a 44px touch target. Mark them explicitly: :only-child ignores text,
-   so it would also catch a single link inside a sentence. Links in sentences stay inline. */
 .link-list a,
 .standalone a,
 body > footer a {
@@ -338,4 +336,86 @@ body > footer nav li:not(:last-child)::after {
 
 body > footer p {
   margin: 0 0 0.25rem;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+@media (max-width: 30rem) {
+  .hide-narrow {
+    display: none;
+  }
+}
+
+th,
+td {
+  padding: 0.625rem 0.75rem 0.625rem 0;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  vertical-align: top;
+}
+
+thead th {
+  color: var(--muted);
+  font-size: 0.875rem;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+tbody th {
+  font-weight: 400;
+}
+
+tbody th a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+td {
+  padding-top: calc(0.625rem + 0.6rem);
+}
+
+.pagination p {
+  margin-bottom: 0.25rem;
+  color: var(--muted);
+}
+
+.pagination ul {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.details dt {
+  margin-top: 1rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.details dd {
+  margin: 0.125rem 0 0;
+}
+
+.details dd ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.prose {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }

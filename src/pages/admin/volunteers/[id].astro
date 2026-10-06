@@ -1,0 +1,43 @@
+---
+import AdminLayout from "../../../components/admin/AdminLayout.astro";
+import Contact from "../../../components/admin/Contact.astro";
+import { formatSubmitted } from "../../../components/admin/format";
+import { VOLUNTEER_INTEREST_LABELS } from "../../../forms/volunteer";
+import { volunteers } from "../../../server/container";
+
+export const prerender = false;
+
+const application = await volunteers.get(Number(Astro.params.id));
+if (!application) Astro.response.status = 404;
+---
+
+<AdminLayout title={application?.name ?? "Not found"}>
+  <p class="standalone"><a href="/admin/volunteers/">All volunteer signups</a></p>
+  {
+    !application ? (
+      <>
+        <h1>Not found</h1>
+        <p>There's no signup with that number. It may have been deleted.</p>
+      </>
+    ) : (
+      <>
+        <h1>{application.name}</h1>
+        <dl class="details">
+          <dt>Submitted</dt>
+          <dd>{formatSubmitted(application.createdAt)}</dd>
+          <Contact email={application.email} phone={application.phone} />
+          <dt>Wants to help with</dt>
+          <dd>
+            {application.interests.length ? (
+              <ul>{application.interests.map((i) => <li>{VOLUNTEER_INTEREST_LABELS[i] ?? i}</li>)}</ul>
+            ) : (
+              "Nothing picked"
+            )}
+          </dd>
+          <dt>Message</dt>
+          <dd class="prose">{application.message ?? "None"}</dd>
+        </dl>
+      </>
+    )
+  }
+</AdminLayout>

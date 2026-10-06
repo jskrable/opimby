@@ -13,8 +13,7 @@ interface Props {
 const { name, legend, type, options, required = false, requiredMessage, checked = [], error } = Astro.props;
 const errorId = `${name}-error`;
 // The first option takes the group's name as its id so error links can target the group.
-// Required is checked on the group (client script and server) rather than with the native
-// attribute, which makes Chrome announce every unchecked radio as invalid on page load.
+// Required is checked on the group: native required makes Chrome announce unchecked radios as invalid.
 const optionId = (i: number, value: string) => (i === 0 ? name : `${name}-${value}`);
 ---
 

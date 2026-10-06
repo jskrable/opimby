@@ -1,4 +1,4 @@
-import { TURNSTILE_SECRET_KEY } from "astro:env/server";
+import { env } from "cloudflare:workers";
 
 const SITEVERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 
@@ -8,7 +8,7 @@ export const verifyTurnstile: HumanVerifier = async (token, ip) => {
   if (!token) return false;
 
   const body = new FormData();
-  body.append("secret", TURNSTILE_SECRET_KEY);
+  body.append("secret", env.TURNSTILE_SECRET_KEY);
   body.append("response", token);
   if (ip) body.append("remoteip", ip);
 

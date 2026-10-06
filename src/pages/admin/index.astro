@@ -1,0 +1,16 @@
+---
+import AdminLayout from "../../components/admin/AdminLayout.astro";
+import { donations, volunteers } from "../../server/container";
+
+export const prerender = false;
+
+const [volunteerCount, donationCount] = await Promise.all([volunteers.count(), donations.count()]);
+---
+
+<AdminLayout title="Overview">
+  <h1>Submissions</h1>
+  <ul class="link-list">
+    <li><a href="/admin/volunteers/">Volunteer signups ({volunteerCount})</a></li>
+    <li><a href="/admin/donations/">Item donations ({donationCount})</a></li>
+  </ul>
+</AdminLayout>

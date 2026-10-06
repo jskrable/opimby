@@ -1,0 +1,41 @@
+---
+import AdminLayout from "../../../components/admin/AdminLayout.astro";
+import { formatSubmittedShort, truncate } from "../../../components/admin/format";
+import Pagination from "../../../components/admin/Pagination.astro";
+import { DONATION_METHOD_SHORT_LABELS } from "../../../forms/donation";
+import { donations } from "../../../server/container";
+
+export const prerender = false;
+
+const { items, page, totalPages, total } = await donations.listPage(Astro.url.searchParams.get("page"));
+---
+
+<AdminLayout title="Item donations">
+  <h1>Item donations</h1>
+  {
+    total === 0 ? (
+      <p>No item donations yet.</p>
+    ) : (
+      <>
+        <div class="table-scroll" role="region" aria-label="Item donations" tabindex="0">
+          <table>
+            <thead>
+              <tr><th scope="col">Name</th><th scope="col">Submitted</th><th scope="col">Getting it to us</th><th scope="col" class="hide-narrow">Items</th></tr>
+            </thead>
+            <tbody>
+              {items.map((d) => (
+                <tr>
+                  <th scope="row"><a href={`/admin/donations/${d.id}/`}>{d.name}</a></th>
+                  <td class="nowrap">{formatSubmittedShort(d.createdAt)}</td>
+                  <td>{DONATION_METHOD_SHORT_LABELS[d.method] ?? d.method}</td>
+                  <td class="hide-narrow">{truncate(d.items)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <Pagination page={page} totalPages={totalPages} total={total} />
+      </>
+    )
+  }
+</AdminLayout>

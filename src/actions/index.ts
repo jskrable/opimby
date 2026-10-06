@@ -5,7 +5,7 @@ import { donationFormSchema } from "../server/donations/schema";
 import type { SubmitResult } from "../server/shared/types";
 import { volunteerFormSchema } from "../server/volunteers/schema";
 
-// Spam gets the same success response as a real submission so bots don't retry.
+// Spam gets a normal success response so bots don't retry.
 function respond(result: SubmitResult) {
   if (result.status === "unverified") throw new ActionError({ code: "FORBIDDEN", message: VERIFY_MESSAGE });
   return { ok: true };

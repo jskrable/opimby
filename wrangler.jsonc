@@ -6,8 +6,7 @@
     { "pattern": "opimby.org", "custom_domain": true },
     { "pattern": "www.opimby.org", "custom_domain": true }
   ],
-  // No not_found_handling: it serves the static 404 page to browser navigations before the
-  // Worker sees them, which hides the on-demand pages. Astro renders 404s itself.
+  // No not_found_handling: it serves the static 404 to browser navigations before the Worker sees them.
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS"
@@ -20,12 +19,11 @@
       "migrations_dir": "migrations"
     }
   ],
-  // Public values only. Secrets go through `wrangler secret put`.
   "vars": {
     "TURNSTILE_SITE_KEY": "0x4AAAAAAFPTZ-NAWd1aje4y",
-    // TODO: set from the Cloudflare Access app guarding /admin. Until then /admin returns 403.
-    "ACCESS_TEAM_DOMAIN": "",
-    "ACCESS_AUD": ""
+    // From the "opimby admin" Access application.
+    "ACCESS_TEAM_DOMAIN": "https://megatherium.cloudflareaccess.com",
+    "ACCESS_AUD": "843633c49bfda0077e57414df31d56027cbb94c29bcf9bbcf2cad46f3600d638"
   },
   "secrets": {
     "required": ["TURNSTILE_SECRET_KEY"]
@@ -35,8 +33,7 @@
     "enabled": false
   },
   "env": {
-    // Local development only (CLOUDFLARE_ENV=local). Secrets come from .dev.vars.local, which a
-    // production build never reads. A plain .dev.vars would leak into production builds.
+    // Local dev only (CLOUDFLARE_ENV=local). Secrets go in .dev.vars.local; a plain .dev.vars leaks into production builds.
     "local": {
       "routes": [],
       "d1_databases": [

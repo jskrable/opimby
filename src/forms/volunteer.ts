@@ -8,4 +8,10 @@ export const VOLUNTEER_INTEREST_LABELS: Record<VolunteerInterest, string> = {
   donations: "Picking up donations (whenever)",
 };
 
+export const VOLUNTEER_INTEREST_SHORT_LABELS: Record<VolunteerInterest, string> = {
+  outreach: "Outreach",
+  kits: "Kit making",
+  donations: "Donation pickups",
+};
+
 export const VOLUNTEER_MAX = { message: 2000 } as const;

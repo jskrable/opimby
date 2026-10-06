@@ -1,0 +1,15 @@
+---
+import { displayPhone } from "../../forms/phone";
+
+interface Props {
+  email: string;
+  phone: string | null;
+}
+
+const { email, phone } = Astro.props;
+---
+
+<dt>Email</dt>
+<dd class="standalone"><a href={`mailto:${email}`}>{email}</a></dd>
+<dt>Phone</dt>
+<dd class="standalone">{phone ? <a href={`tel:${phone}`}>{displayPhone(phone)}</a> : "Not given"}</dd>

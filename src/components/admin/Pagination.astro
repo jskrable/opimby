@@ -1,0 +1,18 @@
+---
+interface Props {
+  page: number;
+  totalPages: number;
+  total: number;
+}
+
+const { page, totalPages, total } = Astro.props;
+const href = (n: number) => (n === 1 ? "?" : `?page=${n}`);
+---
+
+<nav class="pagination" aria-label="Pages">
+  <p>Page {page} of {totalPages} ({total} total)</p>
+  <ul class="link-list">
+    {page > 1 && <li><a href={href(page - 1)} rel="prev">Previous page</a></li>}
+    {page < totalPages && <li><a href={href(page + 1)} rel="next">Next page</a></li>}
+  </ul>
+</nav>

@@ -37,7 +37,6 @@ export const contactSchema = z.object({
     .transform((v) => v && toE164(v)),
 });
 
-// Fields the bot checks need; they're split off before anything is saved.
 export const botFields = z.object({
   [HONEYPOT]: z.string().nullish(),
   [TURNSTILE_FIELD]: z.string().nullish(),
