@@ -15,7 +15,9 @@ interface Props {
   error?: string;
 }
 
-const { name, label, type = "text", required = false, maxlength, autocomplete, rows = 5, requiredMessage, value, error } = Astro.props;
+const { name, label, type = "text", required = false, maxlength, autocomplete, rows = 5, requiredMessage, error } = Astro.props;
+// Only a crafted request can be longer, and echoing all of it back would amplify it.
+const value = Astro.props.value?.slice(0, maxlength);
 
 const pattern = type === "email" ? EMAIL_PATTERN : undefined;
 const formatMessage =

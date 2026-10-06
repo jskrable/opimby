@@ -7,9 +7,11 @@ interface Props {
 }
 
 const { email, phone } = Astro.props;
+// Encoded so "?cc=" or "&bcc=" in a submitted address can't add recipients to the reply.
+const mailto = `mailto:${encodeURIComponent(email).replace("%40", "@")}`;
 ---
 
 <dt>Email</dt>
-<dd class="standalone"><a href={`mailto:${email}`}>{email}</a></dd>
+<dd class="standalone"><a href={mailto}>{email}</a></dd>
 <dt>Phone</dt>
 <dd class="standalone">{phone ? <a href={`tel:${phone}`}>{displayPhone(phone)}</a> : "Not given"}</dd>

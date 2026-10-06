@@ -9,9 +9,10 @@ export const prerender = false;
 
 const submission = await donations.get(Number(Astro.params.id));
 if (!submission) Astro.response.status = 404;
+const heading = submission ? `Item donation #${submission.id}` : "Not found";
 ---
 
-<AdminLayout title={submission?.name ?? "Not found"}>
+<AdminLayout title={heading}>
   <p class="standalone"><a href="/admin/donations/">All item donations</a></p>
   {
     !submission ? (
@@ -21,8 +22,10 @@ if (!submission) Astro.response.status = 404;
       </>
     ) : (
       <>
-        <h1>{submission.name}</h1>
+        <h1>{heading}</h1>
         <dl class="details">
+          <dt>Name</dt>
+          <dd>{submission.name}</dd>
           <dt>Submitted</dt>
           <dd>{formatSubmitted(submission.createdAt)}</dd>
           <Contact email={submission.email} phone={submission.phone} />

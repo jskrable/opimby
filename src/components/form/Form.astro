@@ -1,5 +1,5 @@
 ---
-import { HONEYPOT } from "../../forms/common";
+import { HONEYPOT, SENDING_LABEL } from "../../forms/common";
 import { site } from "../../site";
 import type { FormErrors } from "./state";
 
@@ -33,7 +33,13 @@ const fieldErrors = Object.entries(errors?.fields ?? {});
     </ul>
   </div>
 
-  <p><button type="submit">{submitLabel}</button></p>
+  <p>
+    <button type="submit" class="submit">
+      <span>{submitLabel}</span>
+      <span class="submit-sending">{SENDING_LABEL}<span class="typing" aria-hidden="true">...</span></span>
+    </button>
+  </p>
+  <p class="visually-hidden" role="status" data-form-status></p>
 </form>
 
 <script>

@@ -9,9 +9,10 @@ export const prerender = false;
 
 const application = await volunteers.get(Number(Astro.params.id));
 if (!application) Astro.response.status = 404;
+const heading = application ? `Volunteer signup #${application.id}` : "Not found";
 ---
 
-<AdminLayout title={application?.name ?? "Not found"}>
+<AdminLayout title={heading}>
   <p class="standalone"><a href="/admin/volunteers/">All volunteer signups</a></p>
   {
     !application ? (
@@ -21,8 +22,10 @@ if (!application) Astro.response.status = 404;
       </>
     ) : (
       <>
-        <h1>{application.name}</h1>
+        <h1>{heading}</h1>
         <dl class="details">
+          <dt>Name</dt>
+          <dd>{application.name}</dd>
           <dt>Submitted</dt>
           <dd>{formatSubmitted(application.createdAt)}</dd>
           <Contact email={application.email} phone={application.phone} />

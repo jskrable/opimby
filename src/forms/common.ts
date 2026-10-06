@@ -18,3 +18,5 @@ export const CONTACT_MESSAGES = {
 } as const;
 
 export const VERIFY_MESSAGE = "We couldn't check that you're a person. Please try again.";
+
+export const SENDING_LABEL = "Sending";

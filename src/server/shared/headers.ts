@@ -1,0 +1,9 @@
+// Mirrors public/_headers.
+export const SECURITY_HEADERS = {
+  "Strict-Transport-Security": "max-age=31536000",
+  "Content-Security-Policy": "frame-ancestors 'none'",
+  "X-Frame-Options": "DENY",
+  "X-Content-Type-Options": "nosniff",
+  "Referrer-Policy": "same-origin",
+  "Permissions-Policy": "camera=(), microphone=(), geolocation=(), usb=()",
+} as const;

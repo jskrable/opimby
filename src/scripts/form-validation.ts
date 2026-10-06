@@ -1,4 +1,4 @@
-import { TURNSTILE_FIELD } from "../forms/common";
+import { SENDING_LABEL, TURNSTILE_FIELD } from "../forms/common";
 import { formatAsYouType, isValidPhone } from "../forms/phone";
 
 type Control = HTMLInputElement | HTMLTextAreaElement;
@@ -14,11 +14,23 @@ function enhance(form: HTMLFormElement) {
   form.noValidate = true;
   const summary = form.querySelector<HTMLElement>(".error-summary")!;
   const fields = [...form.querySelectorAll<HTMLElement>("[data-field]")];
+  const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+  const status = form.querySelector<HTMLElement>("[data-form-status]")!;
   let submitted = false;
+  let sending = false;
+
+  const setSending = (on: boolean) => {
+    sending = on;
+    button.setAttribute("aria-disabled", String(on));
+    status.textContent = on ? SENDING_LABEL : "";
+  };
 
   if (!summary.hidden) summary.focus();
+  // Back from the thanks page restores this page as it was left.
+  window.addEventListener("pageshow", (event) => event.persisted && setSending(false));
 
   form.addEventListener("submit", (event) => {
+    if (sending) return event.preventDefault();
     submitted = true;
     const errors = fields.flatMap((field) => {
       const message = messageFor(field);
@@ -30,6 +42,8 @@ function enhance(form: HTMLFormElement) {
     if (errors.length || !token) {
       event.preventDefault();
       showSummary(summary, errors, errors.length ? undefined : PENDING_MESSAGE);
+    } else {
+      setSending(true);
     }
   });
 

@@ -21,6 +21,8 @@
   ],
   "vars": {
     "TURNSTILE_SITE_KEY": "0x4AAAAAAFPTZ-NAWd1aje4y",
+    // Hostnames a Turnstile token must come from.
+    "TURNSTILE_HOSTNAMES": ["opimby.org", "www.opimby.org"],
     // From the "opimby admin" Access application.
     "ACCESS_TEAM_DOMAIN": "https://megatherium.cloudflareaccess.com",
     "ACCESS_AUD": "843633c49bfda0077e57414df31d56027cbb94c29bcf9bbcf2cad46f3600d638"
@@ -47,6 +49,8 @@
       "vars": {
         // Cloudflare's always-pass test key.
         "TURNSTILE_SITE_KEY": "1x00000000000000000000AA",
+        // The hostname Turnstile's test keys return.
+        "TURNSTILE_HOSTNAMES": ["example.com"],
         "ACCESS_TEAM_DOMAIN": "",
         "ACCESS_AUD": "",
         "ADMIN_DEV_BYPASS": "true"

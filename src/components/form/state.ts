@@ -1,5 +1,5 @@
 import type { AstroGlobal } from "astro";
-import { isInputError } from "astro:actions";
+import { type ActionError, isActionError, isInputError } from "astro:actions";
 
 export type FormErrors = { fields: Record<string, string>; message?: string };
 
@@ -11,13 +11,14 @@ export function formErrors(error: unknown): FormErrors | null {
     const fields = Object.entries(error.fields).map(([name, messages]) => [name, messages?.[0] ?? FALLBACK_MESSAGE]);
     return { fields: Object.fromEntries(fields) };
   }
-  const { code, message } = error as { code?: string; message?: string };
-  return { fields: {}, message: code === "FORBIDDEN" && message ? message : FALLBACK_MESSAGE };
+  return { fields: {}, message: isForbidden(error) && error.message ? error.message : FALLBACK_MESSAGE };
 }
 
-// Actions don't return the submitted values.
-export async function submittedValues(astro: AstroGlobal): Promise<FormData> {
-  if (astro.request.method !== "POST") return new FormData();
+const isForbidden = (error: unknown): error is ActionError => isActionError(error) && error.code === "FORBIDDEN";
+
+// Actions don't return the submitted values. Only re-read a body the action already parsed within its size limit.
+export async function submittedValues(astro: AstroGlobal, error: unknown): Promise<FormData> {
+  if (!isInputError(error) && !isForbidden(error)) return new FormData();
   try {
     return await astro.request.clone().formData();
   } catch {

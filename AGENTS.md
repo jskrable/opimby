@@ -21,6 +21,9 @@ Website for Operation In My Backyard (OPIMBY), a 501(c)(3) harm reduction outrea
 - Donations go through Zeffy. Never build payments or sell anything that could read as drug supplies, which risks the payment processor shutting the account down.
 - Config lives in `src/site.ts`: the name ("Operation In My Backyard", one word), links, EIN and contact.
 - Form options, field limits, patterns and error messages live in `src/forms/`, which the pages, the client validation script and the server schemas all read. Form markup goes through `src/components/form/`.
+- Security headers: the CSP is a `<meta>` tag from `security.csp` in `astro.config.mjs`; add any new third-party script or embed there. The header-only parts are in both `public/_headers` (prerendered pages) and `src/server/shared/headers.ts` (on-demand pages); keep the two in step.
+- `/admin` has two locks, Cloudflare Access and the middleware's JWT check. Never weaken either (see `src/middleware.ts`).
+- Bot traffic: Bot Fight Mode stays off so participants never hit a challenge page. Forms rely on Turnstile, the honeypot and a zone rate-limiting rule (5 form POSTs per 10s per IP).
 
 ## Design before building
 
@@ -77,6 +80,7 @@ Run on every changed page and state, including form errors and `/admin`, at phon
 - Collect the minimum.
 - No third-party trackers, scripts or fonts, except Cloudflare Turnstile.
 - Worker logs stay off.
+- Submissions are kept indefinitely; there's no automatic deletion.
 - Never ask participants for real names or anything about drug use.
 
 ## Language
