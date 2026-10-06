@@ -18,9 +18,14 @@
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.3.4",
-    "astro": "^7.3.5",
+    "astro": "^7.3.6",
     "jose": "^6.2.12",
     "libphonenumber-js": "^1.13.14"
+  },
+  "overrides": {
+    "sharp": "^0.35.5",
+    "source-map-js": "^1.2.2",
+    "http-cache-semantics": "^4.3.0"
   },
   "allowScripts": {
     "esbuild": true
@@ -28,7 +33,7 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@types/node": "^26.6.4",
-    "typescript": "^6",
+    "typescript": "^6.0.3",
     "wrangler": "^4.147.0"
   }
 }

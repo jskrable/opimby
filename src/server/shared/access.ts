@@ -1,7 +1,9 @@
 import { env } from "cloudflare:workers";
 import { createRemoteJWKSet, jwtVerify } from "jose";
 
-// Second check behind Access, for a misconfigured app or a request to the workers.dev hostname.
+let jwks: ReturnType<typeof createRemoteJWKSet> | undefined;
+
+// Second check behind Access, for a misconfigured app or a URL Access doesn't match.
 export async function isAdmin(request: Request): Promise<boolean> {
   if (env.ADMIN_DEV_BYPASS === "true") return true;
   const { ACCESS_TEAM_DOMAIN, ACCESS_AUD } = env;
@@ -11,7 +13,7 @@ export async function isAdmin(request: Request): Promise<boolean> {
   if (!token) return false;
 
   const issuer = ACCESS_TEAM_DOMAIN.replace(/\/$/, "");
-  const jwks = createRemoteJWKSet(new URL(`${issuer}/cdn-cgi/access/certs`));
+  jwks ??= createRemoteJWKSet(new URL(`${issuer}/cdn-cgi/access/certs`));
   try {
     await jwtVerify(token, jwks, { issuer, audience: ACCESS_AUD });
     return true;

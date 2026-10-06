@@ -14,7 +14,7 @@ const result = Astro.getActionResult(actions.volunteer);
 if (result && !result.error) return Astro.redirect("/volunteer/thanks/", 303);
 
 const errors = formErrors(result?.error);
-const values = await submittedValues(Astro);
+const values = await submittedValues(Astro, result?.error);
 const value = (name: string) => values.get(name)?.toString();
 const interests = VOLUNTEER_INTERESTS.map((v) => ({ value: v, label: VOLUNTEER_INTEREST_LABELS[v] }));
 ---

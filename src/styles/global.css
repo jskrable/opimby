@@ -269,6 +269,49 @@ button:hover {
   background: var(--text);
 }
 
+/* Both labels share one grid cell, so the button keeps the wider one's size when it switches. */
+.submit {
+  display: inline-grid;
+  place-items: center;
+}
+
+.submit > * {
+  grid-area: 1 / 1;
+}
+
+.submit-sending,
+.submit[aria-disabled="true"] > :first-child {
+  visibility: hidden;
+}
+
+.submit[aria-disabled="true"] {
+  cursor: progress;
+}
+
+.submit[aria-disabled="true"] > .submit-sending {
+  visibility: visible;
+}
+
+.typing {
+  display: inline-block;
+  animation: typing 1.2s steps(4, jump-none) infinite;
+}
+
+@keyframes typing {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typing {
+    animation: none;
+  }
+}
+
 [role="alert"] {
   padding: 0.75rem;
   border: 1px solid var(--purple);
