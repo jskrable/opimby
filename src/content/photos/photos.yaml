@@ -1,0 +1,16 @@
+# Images live next to this file; the page sorts by date, newest first. No identifiable participants.
+- id: packing-bags
+  image: ./packing-bags.jpeg
+  caption: "Packing bags during Sunday kitmaking."
+  alt: "Volunteers packing rows of brown paper bags on a long table."
+  date: 2025-08-17
+- id: overdose-awareness-banner
+  image: ./overdose-awareness-banner.jpeg
+  caption: "Holding our banner for Overdose Awareness."
+  alt: "A group holding a hand-painted purple Overdose Awareness banner outside a station entrance."
+  date: 2025-08-25
+- id: opimby-banner
+  image: ./opimby-banner.jpeg
+  caption: "Getting supplies ready under our banner."
+  alt: "Volunteers working in front of the Operation In My Backyard harm reduction outreach banner."
+  date: 2025-08-17

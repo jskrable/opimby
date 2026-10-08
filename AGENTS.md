@@ -29,7 +29,7 @@ Website for Operation In My Backyard (OPIMBY), a 501(c)(3) harm reduction outrea
 
 Before adding or changing a page, form or link, look at the whole site, not just the file:
 
-- **Site map:** Home, About, Donate (Funds, Items → item form), Volunteer (form), Friends, plus thanks pages and `/admin` (Overview, Volunteers and Item donations, each a paged table with a detail page per submission). Where does the change belong, and does anything now overlap or duplicate?
+- **Site map:** Home, About, Photos, Donate (Funds, Items → item form), Volunteer (form), Friends, plus thanks pages and `/admin` (Overview, Volunteers and Item donations, each a paged table with a detail page per submission). Where does the change belong, and does anything now overlap or duplicate?
 - **Flow:** how does someone get there and what do they do next? Every action needs an obvious, standalone way in, not a link buried in a sentence, and a clear next step after it (a thanks page, a link home).
 - **Overlap between forms:** a new form or option must not compete with an existing one (for example, volunteering to pick up donations vs. offering a donation).
 - **Navigation:** the nav marks the current section on sub-pages (`aria-current`). Keep the footer short; don't repeat what the main nav already reaches.
@@ -82,6 +82,7 @@ Run on every changed page and state, including form errors and `/admin`, at phon
 - Worker logs stay off.
 - Submissions are kept indefinitely; there's no automatic deletion.
 - Never ask participants for real names or anything about drug use.
+- Photos: no identifiable participants. Only supplies, places, events, and volunteers who've agreed. Photos are added to `src/content/photos/` with alt text in `photos.yaml`.
 
 ## Language
 

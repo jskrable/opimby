@@ -15,11 +15,12 @@ interface Props {
 const SITE_NAV: NavItem[] = [
   { href: "/", label: "Home" },
   { href: "/about/", label: "About" },
+  { href: "/photos/", label: "Photos" },
   { href: "/donate/", label: "Donate" },
   { href: "/volunteer/", label: "Volunteer" },
 ];
 
-const { title, description = "A harm reduction advocacy group in Kensington, Philadelphia. Every Tuesday we hand out hot meals, clothing, hygiene items, naloxone, test strips, safer consumption kits, and more.", nav = SITE_NAV, footer = true, noindex = false } = Astro.props;
+const { title, description = "A harm reduction advocacy group in Kensington, Philadelphia. Every Tuesday we hand out hot meals, coats and cold weather gear, hygiene items, naloxone, test strips, safer consumption kits, and more.", nav = SITE_NAV, footer = true, noindex = false } = Astro.props;
 const pageTitle = title ? `${title} | ${site.name}` : site.name;
 const path = Astro.url.pathname;
 
