@@ -11,6 +11,8 @@ export default defineConfig({
   // Without these two the adapter provisions SESSION KV and IMAGES bindings we don't use.
   adapter: cloudflare({ imageService: 'compile' }),
   session: false,
+  // No Markdown here; Shiki's inline styles would conflict with the CSP.
+  markdown: { syntaxHighlight: false },
   security: {
     // Header-only parts (frame-ancestors) are in src/server/shared/headers.ts and public/_headers.
     csp: {

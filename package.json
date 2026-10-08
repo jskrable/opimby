@@ -14,6 +14,7 @@
     "types": "wrangler types --strict-vars=false",
     "db:migrate:local": "wrangler d1 migrations apply opimby --local",
     "db:migrate:remote": "wrangler d1 migrations apply opimby --remote",
+    "infra": "terraform -chdir=infra",
     "astro": "astro"
   },
   "dependencies": {
