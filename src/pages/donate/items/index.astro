@@ -19,7 +19,7 @@ const value = (name: string) => values.get(name)?.toString();
 const methods = DONATION_METHODS.map((v) => ({ value: v, label: DONATION_METHOD_LABELS[v] }));
 ---
 
-<Base title={errors ? "Error: Donate items" : "Donate items"}>
+<Base title={errors ? "Error: Donate items" : "Donate items"} description="Bring coats, shoes, blankets, food, and more to our Tuesday outreach at Ruth and Somerset, or ask us for a pickup.">
   <h1>Donate items</h1>
   <p>You can bring things by outreach any Tuesday at 6pm at Ruth and Somerset. Fill this out if you want to give us a heads-up or need a pickup, and we'll reach out.</p>
 

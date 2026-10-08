@@ -3,7 +3,7 @@ import Base from "../layouts/Base.astro";
 import { site } from "../site";
 ---
 
-<Base title="Friends">
+<Base title="Friends" description="The businesses and groups that support Operation In My Backyard's harm reduction outreach in Kensington, Philadelphia.">
   <h1>Friends</h1>
   <ul class="link-list">
     {site.friends.map((f) => <li><a href={f.url}>{f.name}</a></li>)}

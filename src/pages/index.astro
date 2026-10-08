@@ -1,9 +1,51 @@
 ---
 import Base from "../layouts/Base.astro";
 import { site } from "../site";
+
+const home = new URL("/", Astro.site).href;
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "NGO",
+      "@id": `${home}#org`,
+      name: site.name,
+      alternateName: site.shortName,
+      url: home,
+      logo: new URL("/icon-512.png", Astro.site).href,
+      email: site.email,
+      taxID: site.ein,
+      nonprofitStatus: "Nonprofit501c3",
+      foundingDate: "2018",
+      areaServed: { "@type": "Place", name: "Kensington, Philadelphia, PA" },
+      sameAs: [site.links.instagram, site.links.facebook],
+    },
+    {
+      "@type": "Event",
+      name: `${site.name} weekly outreach`,
+      description: "We hand out hot meals, coats and cold weather gear, hygiene items, naloxone, test strips, safer consumption kits, safer sex supplies, and more.",
+      organizer: { "@id": `${home}#org` },
+      isAccessibleForFree: true,
+      eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+      eventSchedule: {
+        "@type": "Schedule",
+        repeatFrequency: "P1W",
+        byDay: "https://schema.org/Tuesday",
+        startTime: "18:00",
+        scheduleTimezone: "America/New_York",
+      },
+      location: {
+        "@type": "Place",
+        name: "Ruth and Somerset",
+        address: { "@type": "PostalAddress", streetAddress: "Ruth St and E Somerset St", addressLocality: "Philadelphia", addressRegion: "PA", addressCountry: "US" },
+      },
+    },
+  ],
+};
 ---
 
 <Base>
+  <script slot="head" type="application/ld+json" is:inline set:html={JSON.stringify(structuredData)} />
   <h1>{site.name}</h1>
   <p>A harm reduction advocacy group in Kensington, Philadelphia, looking out for people experiencing homelessness and people who use drugs since 2018.</p>
 

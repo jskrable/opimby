@@ -7,7 +7,7 @@ import { site } from "../site";
 const photos = (await getCollection("photos")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
-<Base title="Photos">
+<Base title="Photos" description="Photos of Operation In My Backyard volunteers at kitmaking and outreach in Kensington, Philadelphia.">
   <h1>Photos</h1>
   <p>Some photos of our volunteers in action:</p>
   {photos.map(({ data }, i) => (

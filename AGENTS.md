@@ -23,7 +23,7 @@ Website for Operation In My Backyard (OPIMBY), a 501(c)(3) harm reduction outrea
 - Form options, field limits, patterns and error messages live in `src/forms/`, which the pages, the client validation script and the server schemas all read. Form markup goes through `src/components/form/`.
 - Security headers: the CSP is a `<meta>` tag from `security.csp` in `astro.config.mjs`; add any new third-party script or embed there. The header-only parts are in both `public/_headers` (prerendered pages) and `src/server/shared/headers.ts` (on-demand pages); keep the two in step.
 - `/admin` has two locks, Cloudflare Access and the middleware's JWT check. Never weaken either (see `src/middleware.ts`).
-- Bot traffic: Bot Fight Mode stays off so participants never hit a challenge page. Forms rely on Turnstile, the honeypot and a zone rate-limiting rule (5 form POSTs per 10s per IP).
+- Bot traffic: Bot Fight Mode stays off so participants never hit a challenge page. AI training crawlers are blocked at Cloudflare (AI Crawl Control plus managed `robots.txt`); search and AI-answer crawlers stay allowed. Forms rely on Turnstile, the honeypot and a zone rate-limiting rule (5 form POSTs per 10s per IP).
 
 ## Design before building
 
@@ -78,7 +78,7 @@ Run on every changed page and state, including form errors and `/admin`, at phon
 ## Privacy
 
 - Collect the minimum.
-- No third-party trackers, scripts or fonts, except Cloudflare Turnstile.
+- No third-party trackers, scripts or fonts, except Cloudflare Turnstile and Cloudflare Web Analytics (cookieless, injected by Cloudflare's automatic setup and reporting to our own `/cdn-cgi/rum`). JavaScript detections stays off.
 - Worker logs stay off.
 - Submissions are kept indefinitely; there's no automatic deletion.
 - Never ask participants for real names or anything about drug use.

@@ -19,7 +19,7 @@ const value = (name: string) => values.get(name)?.toString();
 const interests = VOLUNTEER_INTERESTS.map((v) => ({ value: v, label: VOLUNTEER_INTEREST_LABELS[v] }));
 ---
 
-<Base title={errors ? "Error: Volunteer" : "Volunteer"}>
+<Base title={errors ? "Error: Volunteer" : "Volunteer"} description="Volunteer with Operation In My Backyard at our weekly harm reduction outreach in Kensington, Philadelphia. No experience needed.">
   <h1>Volunteer</h1>
   <p>We're always looking for people who want to help, and you don't need any experience. Tell us a little about yourself below and we'll reach out.</p>
 
