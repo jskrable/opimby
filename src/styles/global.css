@@ -462,3 +462,16 @@ td {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
+
+.photo {
+  margin: 0 0 1.5rem;
+}
+
+.photo img {
+  display: block;
+}
+
+.photo figcaption {
+  margin-top: 0.5rem;
+  color: var(--muted);
+}
