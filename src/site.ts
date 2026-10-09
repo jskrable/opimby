@@ -9,6 +9,7 @@ export const site = {
     instagram: "https://www.instagram.com/op_imby/",
     facebook: "https://www.facebook.com/OPIMBY/",
     amazonWishlist: "https://www.amazon.com/hz/wishlist/ls/282AJ6MNXDPBB",
+    zeffy: "https://www.zeffy.com/en-US/donation-form/donate-to-change-lives-26031",
     venmo: "https://venmo.com/u/OpImby",
     paypal: "https://www.paypal.com/us/fundraiser/charity/3371519",
   },
@@ -17,10 +18,6 @@ export const site = {
     { name: "Love Works Resource Center", url: "https://www.loveworksrc.org/" },
     { name: "In Kind Baking Project", url: "https://www.inkindbakingproject.org/" },
   ],
-  // TODO: set once the Zeffy donation form exists (Zeffy form > Share > Embed).
-  zeffy: {
-    formUrl: "",
-    embedUrl: "",
-  },
+  zeffyEmbedPath: "/embed/donation-form/donate-to-change-lives-26031",
   turnstileSiteKey: TURNSTILE_SITE_KEY,
 } as const;

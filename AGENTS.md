@@ -79,7 +79,7 @@ Run on every changed page and state, including form errors and `/admin`, at phon
 ## Privacy
 
 - Collect the minimum.
-- No third-party trackers, scripts or fonts, except Cloudflare Turnstile and Cloudflare Web Analytics (cookieless, injected by Cloudflare's automatic setup and reporting to our own `/cdn-cgi/rum`). JavaScript detections stays off.
+- No third-party trackers, scripts or fonts, except Cloudflare Turnstile, Cloudflare Web Analytics (cookieless, injected by Cloudflare's automatic setup and reporting to our own `/cdn-cgi/rum`) and Zeffy's embed script on Donate (it only sizes the donation form's iframe). JavaScript detections stays off.
 - Worker logs stay off.
 - Submissions are kept indefinitely; there's no automatic deletion.
 - Never ask participants for real names or anything about drug use.
