@@ -20,26 +20,6 @@ const structuredData = {
       areaServed: { "@type": "Place", name: "Kensington, Philadelphia, PA" },
       sameAs: [site.links.instagram, site.links.facebook],
     },
-    {
-      "@type": "Event",
-      name: `${site.name} weekly outreach`,
-      description: "We hand out hot meals, coats and cold weather gear, hygiene items, naloxone, test strips, safer consumption kits, safer sex supplies, and more.",
-      organizer: { "@id": `${home}#org` },
-      isAccessibleForFree: true,
-      eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-      eventSchedule: {
-        "@type": "Schedule",
-        repeatFrequency: "P1W",
-        byDay: "https://schema.org/Tuesday",
-        startTime: "18:00",
-        scheduleTimezone: "America/New_York",
-      },
-      location: {
-        "@type": "Place",
-        name: "Ruth and Somerset",
-        address: { "@type": "PostalAddress", streetAddress: "Ruth St and E Somerset St", addressLocality: "Philadelphia", addressRegion: "PA", addressCountry: "US" },
-      },
-    },
   ],
 };
 ---
@@ -51,7 +31,6 @@ const structuredData = {
 
   <h2>What we do</h2>
   <p>Every Tuesday at 6pm we set up at the corner of Ruth and Somerset. We hand out hot meals, coats and cold weather gear, hygiene items, naloxone, test strips (fentanyl, medetomidine, xylazine, benzos), safer consumption kits, safer sex supplies, and more.</p>
-  <p>We believe in building relationships with people where they are. Through education and working together with the people we serve, we are able to refer people to treatment with a real chance of success, whatever that looks like for them.</p>
 
   <ul class="link-list">
     <li><a href="/donate/">Donate</a></li>
