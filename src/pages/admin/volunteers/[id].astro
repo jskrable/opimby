@@ -35,7 +35,6 @@ const heading = application ? `Volunteer signup #${application.id}` : "Not found
           <dd>{application.name}</dd>
           <dt>Submitted</dt>
           <dd>{formatSubmitted(application.createdAt)}</dd>
-          <ResponseStatus responded={application} />
           <Contact email={application.email} phone={application.phone} />
           <dt>Wants to help with</dt>
           <dd>
@@ -48,6 +47,7 @@ const heading = application ? `Volunteer signup #${application.id}` : "Not found
           <dt>Message</dt>
           <dd class="prose">{application.message ?? "None"}</dd>
         </dl>
+        <ResponseStatus responded={application} />
         <Notes notes={notes} state={state} />
       </>
     )

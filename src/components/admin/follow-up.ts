@@ -22,6 +22,5 @@ export async function handleFollowUp(astro: AstroGlobal, kind: SubmissionKind, i
   }
 
   await followUp.apply(kind, id, parsed.data, admin);
-  const anchor = parsed.data.intent === "respond" || parsed.data.intent === "unrespond" ? "#responded" : "#notes";
-  return astro.redirect(`${astro.url.pathname}${anchor}`, 303);
+  return astro.redirect(astro.url.pathname, 303);
 }

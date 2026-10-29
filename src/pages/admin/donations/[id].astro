@@ -35,7 +35,6 @@ const heading = submission ? `Item donation #${submission.id}` : "Not found";
           <dd>{submission.name}</dd>
           <dt>Submitted</dt>
           <dd>{formatSubmitted(submission.createdAt)}</dd>
-          <ResponseStatus responded={submission} />
           <Contact email={submission.email} phone={submission.phone} />
           <dt>Getting it to us</dt>
           <dd>{DONATION_METHOD_SHORT_LABELS[submission.method] ?? submission.method}</dd>
@@ -48,6 +47,7 @@ const heading = submission ? `Item donation #${submission.id}` : "Not found";
           <dt>Items</dt>
           <dd class="prose">{submission.items}</dd>
         </dl>
+        <ResponseStatus responded={submission} />
         <Notes notes={notes} state={state} />
       </>
     )

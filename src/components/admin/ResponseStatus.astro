@@ -9,23 +9,23 @@ interface Props {
 const { respondedAt, respondedBy } = Astro.props.responded;
 ---
 
-<dt id="responded">Response</dt>
-<dd>
-  <form method="post" class="inline-form">
+<section id="response" aria-labelledby="response-heading">
+  <h2 id="response-heading">Response</h2>
+  <form method="post" class="status-row">
     {
       respondedAt ? (
         <>
-          <span>Responded <span class="secondary-text">by {respondedBy} · {formatSubmitted(respondedAt)}</span></span>
+          <p>Responded <span class="secondary-text status-detail">by {respondedBy} · <span class="nowrap">{formatSubmitted(respondedAt)}</span></span></p>
           <input type="hidden" name="intent" value="unrespond" />
           <button type="submit" class="text-button">Undo</button>
         </>
       ) : (
         <>
-          <span>Not yet</span>
+          <p>Not responded yet</p>
           <input type="hidden" name="intent" value="respond" />
-          <button type="submit" class="small-button secondary">Mark as responded</button>
+          <button type="submit" class="text-button">Mark as responded</button>
         </>
       )
     }
   </form>
-</dd>
+</section>

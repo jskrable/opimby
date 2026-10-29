@@ -13,5 +13,26 @@ const ADMIN_NAV: NavItem[] = [
 ---
 
 <Base title={`${Astro.props.title} | Admin`} nav={ADMIN_NAV} footer={false} noindex>
-  <slot />
+  <div class="admin">
+    <slot />
+  </div>
 </Base>
+
+<script>
+  // Admin forms reload the page after saving; put it back where it was so nothing jumps.
+  const KEY = "admin-scroll";
+
+  document.addEventListener("submit", (event) => {
+    if (!(event.target instanceof HTMLFormElement) || event.target.method !== "post") return;
+    try {
+      sessionStorage.setItem(KEY, JSON.stringify({ path: location.pathname, y: scrollY }));
+    } catch {}
+  });
+
+  try {
+    const saved = sessionStorage.getItem(KEY);
+    sessionStorage.removeItem(KEY);
+    const { path, y } = saved ? JSON.parse(saved) : {};
+    if (path === location.pathname) scrollTo(0, y);
+  } catch {}
+</script>
