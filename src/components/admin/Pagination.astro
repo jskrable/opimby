@@ -3,10 +3,11 @@ interface Props {
   page: number;
   totalPages: number;
   total: number;
+  params?: Record<string, string>;
 }
 
-const { page, totalPages, total } = Astro.props;
-const href = (n: number) => (n === 1 ? "?" : `?page=${n}`);
+const { page, totalPages, total, params = {} } = Astro.props;
+const href = (n: number) => `?${new URLSearchParams(n === 1 ? params : { ...params, page: String(n) })}`;
 ---
 
 <nav class="pagination" aria-label="Pages">

@@ -7,34 +7,46 @@ import { donations } from "../../../server/container";
 
 export const prerender = false;
 
-const { items, page, totalPages, total } = await donations.listPage(Astro.url.searchParams.get("page"));
+const open = Astro.url.searchParams.get("filter") === "open";
+const [{ items, page, totalPages, total }, all, openCount] = await Promise.all([
+  donations.listPage(Astro.url.searchParams.get("page"), open),
+  donations.count(),
+  donations.countOpen(),
+]);
 ---
 
 <AdminLayout title="Item donations">
   <h1>Item donations</h1>
+  <nav aria-label="Filter">
+    <ul class="link-list filters">
+      <li><a href="?" aria-current={open ? undefined : "page"}>All ({all})</a></li>
+      <li><a href="?filter=open" aria-current={open ? "page" : undefined}>Needs a response ({openCount})</a></li>
+    </ul>
+  </nav>
   {
     total === 0 ? (
-      <p>No item donations yet.</p>
+      open ? <p>Nothing needs a response.</p> : <p>No item donations yet.</p>
     ) : (
       <>
         <div class="table-scroll" role="region" aria-label="Item donations" tabindex="0">
           <table>
             <thead>
-              <tr><th scope="col">Name</th><th scope="col">Submitted</th><th scope="col">Getting it to us</th><th scope="col" class="hide-narrow">Items</th></tr>
+              <tr><th scope="col">Name</th><th scope="col" class="hide-narrow">Submitted</th><th scope="col">Getting it to us</th><th scope="col">Responded</th><th scope="col" class="hide-narrow">Items</th></tr>
             </thead>
             <tbody>
               {items.map((d) => (
                 <tr>
                   <th scope="row"><a href={`/admin/donations/${d.id}/`}>{d.name}</a></th>
-                  <td class="nowrap">{formatSubmittedShort(d.createdAt)}</td>
+                  <td class="hide-narrow">{formatSubmittedShort(d.createdAt)}</td>
                   <td>{DONATION_METHOD_SHORT_LABELS[d.method] ?? d.method}</td>
+                  <td>{d.respondedAt ? "Yes" : "No"}</td>
                   <td class="hide-narrow">{truncate(d.items)}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <Pagination page={page} totalPages={totalPages} total={total} />
+        <Pagination page={page} totalPages={totalPages} total={total} params={open ? { filter: "open" } : {}} />
       </>
     )
   }

@@ -269,6 +269,62 @@ button:hover {
   background: var(--text);
 }
 
+button.secondary {
+  border: 1px solid var(--rule);
+  background: transparent;
+  color: var(--text);
+}
+
+button.secondary:hover {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.inline-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin: 0.75rem 0;
+}
+
+.inline-form p {
+  margin: 0;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.filters a[aria-current] {
+  color: var(--text);
+  text-decoration: none;
+  box-shadow: inset 0 -2px var(--green);
+}
+
+.notes {
+  padding: 0;
+  list-style: none;
+}
+
+.notes > li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.notes p {
+  margin: 0;
+}
+
+.note-meta {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
 /* Both labels share one grid cell, so the button keeps the wider one's size when it switches. */
 .submit {
   display: inline-grid;
@@ -431,6 +487,18 @@ td {
   padding-top: calc(0.625rem + 0.6rem);
 }
 
+/* Fit tables on a phone rather than scroll them sideways. */
+@media (max-width: 30rem) {
+  th,
+  td {
+    padding-right: 0.5rem;
+  }
+
+  thead th {
+    white-space: normal;
+  }
+}
+
 .pagination p {
   margin-bottom: 0.25rem;
   color: var(--muted);
@@ -451,6 +519,14 @@ td {
 
 .details dd {
   margin: 0.125rem 0 0;
+}
+
+/* Emails, names and URLs people type can be one long word. */
+.details dd,
+.notes,
+.inline-form p,
+tbody th a {
+  overflow-wrap: anywhere;
 }
 
 .details dd ul {

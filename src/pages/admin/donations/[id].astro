@@ -1,18 +1,24 @@
 ---
 import AdminLayout from "../../../components/admin/AdminLayout.astro";
 import Contact from "../../../components/admin/Contact.astro";
+import { handleFollowUp } from "../../../components/admin/follow-up";
+import FollowUp from "../../../components/admin/FollowUp.astro";
 import { formatSubmitted } from "../../../components/admin/format";
 import { DONATION_METHOD_SHORT_LABELS } from "../../../forms/donation";
-import { donations } from "../../../server/container";
+import { followUp, donations } from "../../../server/container";
 
 export const prerender = false;
 
 const submission = await donations.get(Number(Astro.params.id));
 if (!submission) Astro.response.status = 404;
+
+const state = submission ? await handleFollowUp(Astro, "donation", submission.id) : {};
+if (state instanceof Response) return state;
+const notes = submission ? await followUp.notes("donation", submission.id) : [];
 const heading = submission ? `Item donation #${submission.id}` : "Not found";
 ---
 
-<AdminLayout title={heading}>
+<AdminLayout title={state.error ? `Error: ${heading}` : heading}>
   <p class="standalone"><a href="/admin/donations/">All item donations</a></p>
   {
     !submission ? (
@@ -40,6 +46,7 @@ const heading = submission ? `Item donation #${submission.id}` : "Not found";
           <dt>Items</dt>
           <dd class="prose">{submission.items}</dd>
         </dl>
+        <FollowUp responded={submission} notes={notes} state={state} />
       </>
     )
   }

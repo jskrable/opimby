@@ -4,13 +4,20 @@ import { donations, volunteers } from "../../server/container";
 
 export const prerender = false;
 
-const [volunteerCount, donationCount] = await Promise.all([volunteers.count(), donations.count()]);
+const [volunteerCount, volunteersOpen, donationCount, donationsOpen] = await Promise.all([
+  volunteers.count(),
+  volunteers.countOpen(),
+  donations.count(),
+  donations.countOpen(),
+]);
 ---
 
 <AdminLayout title="Overview">
   <h1>Submissions</h1>
   <ul class="link-list">
     <li><a href="/admin/volunteers/">Volunteer signups ({volunteerCount})</a></li>
+    <li><a href="/admin/volunteers/?filter=open">Volunteer signups that need a response ({volunteersOpen})</a></li>
     <li><a href="/admin/donations/">Item donations ({donationCount})</a></li>
+    <li><a href="/admin/donations/?filter=open">Item donations that need a response ({donationsOpen})</a></li>
   </ul>
 </AdminLayout>

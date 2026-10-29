@@ -7,33 +7,45 @@ import { volunteers } from "../../../server/container";
 
 export const prerender = false;
 
-const { items, page, totalPages, total } = await volunteers.listPage(Astro.url.searchParams.get("page"));
+const open = Astro.url.searchParams.get("filter") === "open";
+const [{ items, page, totalPages, total }, all, openCount] = await Promise.all([
+  volunteers.listPage(Astro.url.searchParams.get("page"), open),
+  volunteers.count(),
+  volunteers.countOpen(),
+]);
 ---
 
 <AdminLayout title="Volunteers">
   <h1>Volunteer signups</h1>
+  <nav aria-label="Filter">
+    <ul class="link-list filters">
+      <li><a href="?" aria-current={open ? undefined : "page"}>All ({all})</a></li>
+      <li><a href="?filter=open" aria-current={open ? "page" : undefined}>Needs a response ({openCount})</a></li>
+    </ul>
+  </nav>
   {
     total === 0 ? (
-      <p>No signups yet.</p>
+      open ? <p>Nothing needs a response.</p> : <p>No signups yet.</p>
     ) : (
       <>
         <div class="table-scroll" role="region" aria-label="Volunteer signups" tabindex="0">
           <table>
             <thead>
-              <tr><th scope="col">Name</th><th scope="col">Submitted</th><th scope="col">Interests</th></tr>
+              <tr><th scope="col">Name</th><th scope="col">Submitted</th><th scope="col" class="hide-narrow">Interests</th><th scope="col">Responded</th></tr>
             </thead>
             <tbody>
               {items.map((a) => (
                 <tr>
                   <th scope="row"><a href={`/admin/volunteers/${a.id}/`}>{a.name}</a></th>
-                  <td class="nowrap">{formatSubmittedShort(a.createdAt)}</td>
-                  <td>{a.interests.map((i) => VOLUNTEER_INTEREST_SHORT_LABELS[i] ?? i).join(", ") || "None picked"}</td>
+                  <td>{formatSubmittedShort(a.createdAt)}</td>
+                  <td class="hide-narrow">{a.interests.map((i) => VOLUNTEER_INTEREST_SHORT_LABELS[i] ?? i).join(", ") || "None picked"}</td>
+                  <td>{a.respondedAt ? "Yes" : "No"}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <Pagination page={page} totalPages={totalPages} total={total} />
+        <Pagination page={page} totalPages={totalPages} total={total} params={open ? { filter: "open" } : {}} />
       </>
     )
   }
