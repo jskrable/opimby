@@ -2,8 +2,9 @@
 import AdminLayout from "../../../components/admin/AdminLayout.astro";
 import Contact from "../../../components/admin/Contact.astro";
 import { handleFollowUp } from "../../../components/admin/follow-up";
-import FollowUp from "../../../components/admin/FollowUp.astro";
 import { formatSubmitted } from "../../../components/admin/format";
+import Notes from "../../../components/admin/Notes.astro";
+import ResponseStatus from "../../../components/admin/ResponseStatus.astro";
 import { VOLUNTEER_INTEREST_LABELS } from "../../../forms/volunteer";
 import { followUp, volunteers } from "../../../server/container";
 
@@ -34,6 +35,7 @@ const heading = application ? `Volunteer signup #${application.id}` : "Not found
           <dd>{application.name}</dd>
           <dt>Submitted</dt>
           <dd>{formatSubmitted(application.createdAt)}</dd>
+          <ResponseStatus responded={application} />
           <Contact email={application.email} phone={application.phone} />
           <dt>Wants to help with</dt>
           <dd>
@@ -46,7 +48,7 @@ const heading = application ? `Volunteer signup #${application.id}` : "Not found
           <dt>Message</dt>
           <dd class="prose">{application.message ?? "None"}</dd>
         </dl>
-        <FollowUp responded={application} notes={notes} state={state} />
+        <Notes notes={notes} state={state} />
       </>
     )
   }

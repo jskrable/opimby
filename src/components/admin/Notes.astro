@@ -1,0 +1,50 @@
+---
+import { NOTE_MAX, NOTE_MESSAGES } from "../../forms/notes";
+import type { Note } from "../../server/followup/types";
+import Field from "../form/Field.astro";
+import type { FollowUpState } from "./follow-up";
+import { formatSubmitted } from "./format";
+
+interface Props {
+  notes: Note[];
+  state: FollowUpState;
+}
+
+const { notes, state } = Astro.props;
+const admin = Astro.locals.adminEmail;
+---
+
+<section id="notes" aria-labelledby="notes-heading">
+  <h2 id="notes-heading">Notes</h2>
+  {
+    notes.length ? (
+      <ul class="notes">
+        {notes.map((n) => (
+          <li>
+            <div class="note-meta">
+              <span>{n.author} · {formatSubmitted(n.createdAt)}</span>
+              {n.author === admin && (
+                <form method="post">
+                  <input type="hidden" name="intent" value="delete-note" />
+                  <input type="hidden" name="noteId" value={n.id} />
+                  <button type="submit" class="text-button">
+                    Delete<span class="visually-hidden"> your note from {formatSubmitted(n.createdAt)}</span>
+                  </button>
+                </form>
+              )}
+            </div>
+            <p class="prose">{n.body}</p>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>No notes yet.</p>
+    )
+  }
+
+  <form method="post" class="note-form" novalidate>
+    <input type="hidden" name="intent" value="add-note" />
+    <Field name="body" label="Add a note" type="textarea" rows={3} maxlength={NOTE_MAX.body} required requiredMessage={NOTE_MESSAGES.body} value={state.value} error={state.error} />
+    <p><button type="submit" class="small-button">Save note</button></p>
+  </form>
+</section>

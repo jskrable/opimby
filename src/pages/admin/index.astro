@@ -15,9 +15,7 @@ const [volunteerCount, volunteersOpen, donationCount, donationsOpen] = await Pro
 <AdminLayout title="Overview">
   <h1>Submissions</h1>
   <ul class="link-list">
-    <li><a href="/admin/volunteers/">Volunteer signups ({volunteerCount})</a></li>
-    <li><a href="/admin/volunteers/?filter=open">Volunteer signups that need a response ({volunteersOpen})</a></li>
-    <li><a href="/admin/donations/">Item donations ({donationCount})</a></li>
-    <li><a href="/admin/donations/?filter=open">Item donations that need a response ({donationsOpen})</a></li>
+    <li><a href="/admin/volunteers/">Volunteer signups ({volunteerCount})</a> <span class="secondary-text">{volunteersOpen} need a response</span></li>
+    <li><a href="/admin/donations/">Item donations ({donationCount})</a> <span class="secondary-text">{donationsOpen} need a response</span></li>
   </ul>
 </AdminLayout>

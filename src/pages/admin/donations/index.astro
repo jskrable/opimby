@@ -1,6 +1,6 @@
 ---
 import AdminLayout from "../../../components/admin/AdminLayout.astro";
-import { formatSubmittedShort, truncate } from "../../../components/admin/format";
+import { formatSubmittedDay, truncate } from "../../../components/admin/format";
 import Pagination from "../../../components/admin/Pagination.astro";
 import { DONATION_METHOD_SHORT_LABELS } from "../../../forms/donation";
 import { donations } from "../../../server/container";
@@ -37,7 +37,7 @@ const [{ items, page, totalPages, total }, all, openCount] = await Promise.all([
               {items.map((d) => (
                 <tr>
                   <th scope="row"><a href={`/admin/donations/${d.id}/`}>{d.name}</a></th>
-                  <td class="hide-narrow">{formatSubmittedShort(d.createdAt)}</td>
+                  <td class="hide-narrow nowrap">{formatSubmittedDay(d.createdAt)}</td>
                   <td>{DONATION_METHOD_SHORT_LABELS[d.method] ?? d.method}</td>
                   <td>{d.respondedAt ? "Yes" : "No"}</td>
                   <td class="hide-narrow">{truncate(d.items)}</td>

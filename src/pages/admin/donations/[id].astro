@@ -2,8 +2,9 @@
 import AdminLayout from "../../../components/admin/AdminLayout.astro";
 import Contact from "../../../components/admin/Contact.astro";
 import { handleFollowUp } from "../../../components/admin/follow-up";
-import FollowUp from "../../../components/admin/FollowUp.astro";
 import { formatSubmitted } from "../../../components/admin/format";
+import Notes from "../../../components/admin/Notes.astro";
+import ResponseStatus from "../../../components/admin/ResponseStatus.astro";
 import { DONATION_METHOD_SHORT_LABELS } from "../../../forms/donation";
 import { followUp, donations } from "../../../server/container";
 
@@ -34,6 +35,7 @@ const heading = submission ? `Item donation #${submission.id}` : "Not found";
           <dd>{submission.name}</dd>
           <dt>Submitted</dt>
           <dd>{formatSubmitted(submission.createdAt)}</dd>
+          <ResponseStatus responded={submission} />
           <Contact email={submission.email} phone={submission.phone} />
           <dt>Getting it to us</dt>
           <dd>{DONATION_METHOD_SHORT_LABELS[submission.method] ?? submission.method}</dd>
@@ -46,7 +48,7 @@ const heading = submission ? `Item donation #${submission.id}` : "Not found";
           <dt>Items</dt>
           <dd class="prose">{submission.items}</dd>
         </dl>
-        <FollowUp responded={submission} notes={notes} state={state} />
+        <Notes notes={notes} state={state} />
       </>
     )
   }

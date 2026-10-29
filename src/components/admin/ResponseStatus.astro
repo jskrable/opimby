@@ -1,0 +1,31 @@
+---
+import type { Responded } from "../../server/shared/types";
+import { formatSubmitted } from "./format";
+
+interface Props {
+  responded: Responded;
+}
+
+const { respondedAt, respondedBy } = Astro.props.responded;
+---
+
+<dt id="responded">Response</dt>
+<dd>
+  <form method="post" class="inline-form">
+    {
+      respondedAt ? (
+        <>
+          <span>Responded <span class="secondary-text">by {respondedBy} · {formatSubmitted(respondedAt)}</span></span>
+          <input type="hidden" name="intent" value="unrespond" />
+          <button type="submit" class="text-button">Undo</button>
+        </>
+      ) : (
+        <>
+          <span>Not yet</span>
+          <input type="hidden" name="intent" value="respond" />
+          <button type="submit" class="small-button secondary">Mark as responded</button>
+        </>
+      )
+    }
+  </form>
+</dd>
