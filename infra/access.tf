@@ -46,5 +46,7 @@ resource "cloudflare_zero_trust_access_identity_provider" "google" {
     email_attribute_name = "email"
     attributes           = ["email"]
     sign_request         = false
+    # Didn't bring up Google's account chooser (#13). Kept explicit: removing it shows a diff on every plan.
+    force_authn = false
   }
 }
