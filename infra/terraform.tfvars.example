@@ -1,3 +1,2 @@
 # Copy to terraform.tfvars (gitignored).
 cloudflare_api_token = ""
-admin_emails         = ["you@example.com"]
