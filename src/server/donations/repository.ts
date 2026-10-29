@@ -16,14 +16,15 @@ export type DonationRepository = ReturnType<typeof createDonationRepository>;
 
 export function createDonationRepository(db: D1Database) {
   return {
-    async create(d: NewDonationSubmission): Promise<void> {
-      await db
+    async create(d: NewDonationSubmission): Promise<number> {
+      const { meta } = await db
         .prepare(
           `INSERT INTO donation_submissions (name, email, phone, items, method, area)
            VALUES (?, ?, ?, ?, ?, ?)`,
         )
         .bind(d.name, d.email, d.phone, d.items, d.method, d.area)
         .run();
+      return meta.last_row_id;
     },
 
     async count(): Promise<number> {

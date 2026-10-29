@@ -15,14 +15,15 @@ export type VolunteerRepository = ReturnType<typeof createVolunteerRepository>;
 
 export function createVolunteerRepository(db: D1Database) {
   return {
-    async create(a: NewVolunteerApplication): Promise<void> {
-      await db
+    async create(a: NewVolunteerApplication): Promise<number> {
+      const { meta } = await db
         .prepare(
           `INSERT INTO volunteer_applications (name, email, phone, interests, message)
            VALUES (?, ?, ?, ?, ?)`,
         )
         .bind(a.name, a.email, a.phone, JSON.stringify(a.interests), a.message)
         .run();
+      return meta.last_row_id;
     },
 
     async count(): Promise<number> {

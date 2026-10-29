@@ -19,6 +19,10 @@
       "migrations_dir": "migrations"
     }
   ],
+  "send_email": [
+    // Email Routing has to stay on for opimby.org: it's what lets the Worker send to a verified address for free.
+    { "name": "NOTIFY", "destination_address": "info@opimby.org" }
+  ],
   "vars": {
     "TURNSTILE_SITE_KEY": "0x4AAAAAAFPTZ-NAWd1aje4y",
     // Hostnames a Turnstile token must come from.
@@ -46,6 +50,8 @@
           "migrations_dir": "migrations"
         }
       ],
+      // Simulated locally: wrangler logs the email instead of sending it.
+      "send_email": [{ "name": "NOTIFY", "destination_address": "info@opimby.org" }],
       "vars": {
         // Cloudflare's always-pass test key.
         "TURNSTILE_SITE_KEY": "1x00000000000000000000AA",
