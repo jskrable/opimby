@@ -230,6 +230,14 @@ iframe {
   border: 0;
 }
 
+/* Matches the width and corners zeffy-embed.js gives the form below it. */
+.zeffy-thermometer {
+  max-width: 600px;
+  height: 120px;
+  margin: 1.5rem auto 1rem;
+  border-radius: 16px;
+}
+
 form {
   margin: 1.5rem 0;
 }

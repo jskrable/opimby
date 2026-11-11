@@ -1,5 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
+import ZeffyForm from "../../components/ZeffyForm.astro";
 import { site } from "../../site";
 ---
 
@@ -8,9 +9,21 @@ import { site } from "../../site";
   <p>Everything we hand out on {site.outreach.day}s is paid for by people like you. Sterile supplies help prevent disease, and naloxone and test strips help prevent overdose deaths. Operation In My Backyard is a 501(c)(3), so your gift is tax-deductible.</p>
 
   <h2>Give money</h2>
-  {site.zeffy.embedUrl ? (
-    <iframe title="Donation form" src={site.zeffy.embedUrl} width="100%" height="1200" loading="lazy" allow="payment"></iframe>
-  ) : null}
+  <p>We spend every gift where outreach needs it most. A one-time gift typically covers:</p>
+  <ul>
+    <li>$25: wound care kits for about 5 people</li>
+    <li>$50: a hot meal, a drink and snacks for about 25 people</li>
+    <li>$100: about 10 cold weather kits</li>
+    <li>$250: all the food for one outreach</li>
+  </ul>
+  <ZeffyForm form={site.zeffy.donate} title="Donation form" />
+  {site.zeffy.sponsor && (
+    <ul class="link-list actions">
+      <li><a href="/donate/sponsor/">Sponsor a whole {site.outreach.day}</a></li>
+    </ul>
+  )}
+
+  <h3>Other ways to give money</h3>
   <ul class="link-list actions">
     <li>
       <a href={site.links.venmo}>Venmo (@OpImby)</a>

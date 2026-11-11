@@ -1,0 +1,14 @@
+---
+import Base from "../../../../layouts/Base.astro";
+import { site } from "../../../../site";
+---
+
+<Base title="Thank you" noindex>
+  <h1>Thank you</h1>
+  <p>Your gift goes toward our {site.outreach.day} outreach. Your tax receipt is on its way by email.</p>
+  <p>Know someone who'd want to help? Send them to <a href="/donate/sponsor/">opimby.org/donate/sponsor</a>.</p>
+  <ul class="link-list actions">
+    <li><a href={site.links.instagram}>Follow us on Instagram</a></li>
+    <li><a href="/">Back to home</a></li>
+  </ul>
+</Base>

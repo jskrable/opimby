@@ -18,14 +18,13 @@ export default defineConfig({
     csp: {
       directives: [
         "default-src 'self'",
-        // TODO: add the Zeffy embed's origin once site.zeffy.embedUrl is set.
-        "frame-src https://challenges.cloudflare.com",
+        "frame-src https://challenges.cloudflare.com https://www.zeffy.com",
         "form-action 'self'",
         "base-uri 'self'",
         "object-src 'none'",
       ],
       // Cloudflare Web Analytics is injected at the edge (auto-install) and reports to our own /cdn-cgi/rum.
-      scriptDirective: { resources: ["'self'", "https://challenges.cloudflare.com", "https://static.cloudflareinsights.com"] },
+      scriptDirective: { resources: ["'self'", "https://challenges.cloudflare.com", "https://static.cloudflareinsights.com", "https://www.zeffy.com"] },
     },
   },
   env: {

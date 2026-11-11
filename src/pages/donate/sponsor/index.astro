@@ -1,0 +1,25 @@
+---
+import Base from "../../../layouts/Base.astro";
+import ZeffyForm from "../../../components/ZeffyForm.astro";
+import { site } from "../../../site";
+
+const { day, time, place } = site.outreach;
+---
+
+<Base title={`Sponsor a ${day}`} description={`Sponsor a ${day} outreach night in Kensington, Philadelphia. $1,250 covers one whole night.`}>
+  <h1>Sponsor a {day}</h1>
+  <p>Every {day} at {time} we set up at {place} in Kensington and hand out hot meals, hygiene items, wound care, safer consumption kits, safer sex supplies and more to about 100 people.</p>
+  <p>$1,250 covers a whole night. We're raising $6,250 to cover five {day}s. Every gift, whatever the size, goes into one pool.</p>
+  <p>You can give in honor or in memory of someone. {site.name} is a 501(c)(3), so your gift is tax-deductible.</p>
+
+  {site.zeffy.sponsor && (
+    <>
+      <iframe class="zeffy-thermometer" title="Progress toward the goal" src={`https://www.zeffy.com/embed/thermometer/${site.zeffy.sponsor.split("/").pop()}`}></iframe>
+      <ZeffyForm form={site.zeffy.sponsor} title="Sponsor donation form" />
+    </>
+  )}
+
+  <ul class="link-list actions">
+    <li><a href="/donate/">Other ways to donate</a></li>
+  </ul>
+</Base>

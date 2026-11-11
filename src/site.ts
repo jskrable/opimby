@@ -20,10 +20,10 @@ export const site = {
     { name: "Love Works Resource Center", url: "https://www.loveworksrc.org/" },
     { name: "In Kind Baking Project", url: "https://www.inkindbakingproject.org/" },
   ],
-  // TODO: set once the Zeffy donation form exists (Zeffy form > Share > Embed).
+  // Zeffy form paths, as in the form's link after "https://www.zeffy.com/en-US/".
   zeffy: {
-    formUrl: "",
-    embedUrl: "",
+    donate: "donation-form/donate-to-change-lives-26031",
+    sponsor: "donation-form/sponsor-an-outreach",
   },
   turnstileSiteKey: TURNSTILE_SITE_KEY,
 } as const;
