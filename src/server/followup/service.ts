@@ -1,13 +1,19 @@
+import { type Admin, requireAdmin } from "../shared/access";
 import type { NoteRepository } from "./repository";
 import type { FollowUpForm, Note, Respondable, SubmissionKind } from "./types";
 
 export type FollowUpService = ReturnType<typeof createFollowUpService>;
 
-export function createFollowUpService(notes: NoteRepository, submissions: Record<SubmissionKind, Respondable>) {
+export function createFollowUpService(
+  notes: NoteRepository,
+  submissions: Record<SubmissionKind, Respondable>,
+  signedIn: Admin,
+) {
+  const admin = requireAdmin(signedIn).email;
   return {
     notes: (kind: SubmissionKind, id: number): Promise<Note[]> => notes.list(kind, id),
 
-    async apply(kind: SubmissionKind, id: number, input: FollowUpForm, admin: string): Promise<void> {
+    async apply(kind: SubmissionKind, id: number, input: FollowUpForm): Promise<void> {
       const submission = submissions[kind];
       if (!(await submission.findById(id))) return;
 

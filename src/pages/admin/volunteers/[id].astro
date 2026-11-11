@@ -6,14 +6,16 @@ import { formatSubmitted } from "../../../components/admin/format";
 import Notes from "../../../components/admin/Notes.astro";
 import ResponseStatus from "../../../components/admin/ResponseStatus.astro";
 import { VOLUNTEER_INTEREST_LABELS } from "../../../forms/volunteer";
-import { followUp, volunteers } from "../../../server/container";
+import { adminServices } from "../../../server/container";
 
 export const prerender = false;
+
+const { followUp, volunteers } = adminServices(Astro.locals.admin);
 
 const application = await volunteers.get(Number(Astro.params.id));
 if (!application) Astro.response.status = 404;
 
-const state = application ? await handleFollowUp(Astro, "volunteer", application.id) : {};
+const state = application ? await handleFollowUp(Astro, followUp, "volunteer", application.id) : {};
 if (state instanceof Response) return state;
 const notes = application ? await followUp.notes("volunteer", application.id) : [];
 const heading = application ? `Volunteer signup #${application.id}` : "Not found";

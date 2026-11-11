@@ -1,5 +1,5 @@
 import { defineMiddleware } from "astro:middleware";
-import { adminEmail } from "./server/shared/access";
+import { signIn } from "./server/shared/access";
 import { SECURITY_HEADERS } from "./server/shared/headers";
 
 const ADMIN_PATH = /^\/admin(\/|$)/;
@@ -12,9 +12,9 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   const admin = ADMIN_PATH.test(context.url.pathname);
   if (admin) {
-    const email = await adminEmail(context.request);
-    if (!email) return new Response("Forbidden", { status: 403 });
-    context.locals.adminEmail = email;
+    const admin = await signIn(context.request);
+    if (!admin) return new Response("Forbidden", { status: 403 });
+    context.locals.admin = admin;
   }
 
   // Some responses (dev's /_image endpoint) have immutable headers; a copy can be changed.

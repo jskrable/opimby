@@ -1,8 +1,10 @@
 ---
 import AdminLayout from "../../components/admin/AdminLayout.astro";
-import { donations, volunteers } from "../../server/container";
+import { adminServices } from "../../server/container";
 
 export const prerender = false;
+
+const { donations, volunteers } = adminServices(Astro.locals.admin);
 
 const [volunteerCount, volunteersOpen, donationCount, donationsOpen] = await Promise.all([
   volunteers.count(),

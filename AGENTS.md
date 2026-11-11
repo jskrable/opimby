@@ -23,7 +23,7 @@ Website for Operation In My Backyard (OPIMBY), a 501(c)(3) harm reduction outrea
 - Config lives in `src/site.ts`: the name ("Operation In My Backyard", one word), links, EIN and contact.
 - Form options, field limits, patterns and error messages live in `src/forms/`, which the pages, the client validation script and the server schemas all read. Form markup goes through `src/components/form/`.
 - Security headers: the CSP is a `<meta>` tag from `security.csp` in `astro.config.mjs`; add any new third-party script or embed there. The header-only parts are in both `public/_headers` (prerendered pages) and `src/server/shared/headers.ts` (on-demand pages); keep the two in step.
-- `/admin` has two locks, Cloudflare Access and the middleware's JWT check. Never weaken either (see `src/middleware.ts`).
+- `/admin` has two locks, Cloudflare Access and the middleware's JWT check. Never weaken either (see `src/middleware.ts`). The middleware signs the admin in as an `Admin` (`src/server/shared/access.ts`), and admin services only come from `adminServices(Astro.locals.admin)`, which refuses without one. Admin reads and writes live there (`src/server/shared/submission-admin.ts`, `src/server/followup/`), never in the public services the forms use.
 - Bot traffic: Bot Fight Mode stays off so participants never hit a challenge page. AI training crawlers are opted out in `public/robots.txt` only. Never turn on Cloudflare's AI training blocking or managed `robots.txt`: its firewall rule blocked real Googlebot. Forms rely on Turnstile, the honeypot and a zone rate-limiting rule (5 form POSTs per 10s per IP).
 
 ## Design before building

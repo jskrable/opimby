@@ -11,7 +11,7 @@ interface Props {
 }
 
 const { notes, state } = Astro.props;
-const admin = Astro.locals.adminEmail;
+const admin = Astro.locals.admin?.email;
 ---
 
 <section id="notes" aria-labelledby="notes-heading">
