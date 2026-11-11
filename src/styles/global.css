@@ -113,6 +113,15 @@ body > header nav ul {
   font-size: 0.9375rem;
 }
 
+/* All five items stay on one row down to 320px. */
+@media (max-width: 24rem) {
+  body > header nav ul {
+    justify-content: space-between;
+    column-gap: 0.5rem;
+    font-size: 0.875rem;
+  }
+}
+
 body > header nav a {
   display: inline-flex;
   align-items: center;
@@ -187,7 +196,27 @@ main .pagination li {
   margin-top: 0;
 }
 
-.link-list a,
+/* Lists of things to do: no bullets, each link ends in an arrow. */
+main ul.actions {
+  padding-left: 0;
+  list-style: none;
+}
+
+/* Inline-block, not flex, so the arrow follows the last word when a link wraps. */
+.link-list.actions li > a {
+  display: inline-block;
+  padding: 0.55rem 0;
+}
+
+/* An inline-block isn't underlined with the link. */
+.actions li > a::after {
+  content: "→";
+  content: "→" / "";
+  display: inline-block;
+  margin-left: 0.4em;
+}
+
+.link-list li > a,
 .standalone a,
 body > footer a {
   display: inline-flex;
@@ -627,4 +656,6 @@ tbody th a {
 .photo figcaption {
   margin-top: 0.5rem;
   color: var(--muted);
+  font-size: 0.875rem;
+  line-height: 1.4;
 }

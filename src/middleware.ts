@@ -17,7 +17,9 @@ export const onRequest = defineMiddleware(async (context, next) => {
     context.locals.adminEmail = email;
   }
 
-  const response = await next();
+  // Some responses (dev's /_image endpoint) have immutable headers; a copy can be changed.
+  const original = await next();
+  const response = new Response(original.body, original);
   for (const [name, value] of Object.entries(SECURITY_HEADERS)) response.headers.set(name, value);
   if (admin) {
     response.headers.set("Cache-Control", "no-store");

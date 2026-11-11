@@ -12,6 +12,9 @@ export const site = {
     venmo: "https://venmo.com/u/OpImby",
     paypal: "https://www.paypal.com/us/fundraiser/charity/3371519",
   },
+  outreach: { day: "Tuesday", time: "6pm", place: "Ruth and Somerset" },
+  office: "our office in Kensington",
+  kitMaking: { day: "Sunday", frequency: "about once a month", length: "about two hours" },
   friends: [
     { name: "Dietz & Watson", url: "https://www.dietzandwatson.com/" },
     { name: "Love Works Resource Center", url: "https://www.loveworksrc.org/" },

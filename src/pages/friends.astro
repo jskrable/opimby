@@ -5,7 +5,8 @@ import { site } from "../site";
 
 <Base title="Friends" description="The businesses and groups that support Operation In My Backyard's harm reduction outreach in Kensington, Philadelphia.">
   <h1>Friends</h1>
-  <ul class="link-list">
+  <p>These businesses and groups help make our {site.outreach.day} outreach possible. If your business or group donates and wants to be listed here, email us at <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+  <ul class="link-list actions">
     {site.friends.map((f) => <li><a href={f.url}>{f.name}</a></li>)}
   </ul>
 </Base>

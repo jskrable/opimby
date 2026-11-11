@@ -1,9 +1,13 @@
+import { site } from "../site";
+
+const { outreach } = site;
+
 export const DONATION_METHODS = ["outreach", "pickup"] as const;
 
 export type DonationMethod = (typeof DONATION_METHODS)[number];
 
 export const DONATION_METHOD_LABELS: Record<DonationMethod, string> = {
-  outreach: "I'll bring it to outreach (Tuesdays at 6pm, Ruth and Somerset)",
+  outreach: `I'll bring it to outreach (${outreach.day}s at ${outreach.time}, ${outreach.place})`,
   pickup: "I need a pickup",
 };
 

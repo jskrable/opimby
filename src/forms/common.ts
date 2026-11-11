@@ -13,8 +13,8 @@ export const tooLongMessage = (max: number) => `Must be ${max} characters or few
 export const CONTACT_MESSAGES = {
   name: "Enter your name",
   email: "Enter your email address",
-  emailFormat: "Please enter a valid email address like 'name@example.com'",
-  phoneFormat: "Please enter a valid phone number like '(215) 555-0123'",
+  emailFormat: "Enter an email address like name@example.com",
+  phoneFormat: "Enter a phone number like (215) 555-0123",
 } as const;
 
 export const VERIFY_MESSAGE = "We couldn't check that you're a person. Please try again.";

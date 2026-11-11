@@ -10,6 +10,7 @@ const photos = defineCollection({
       alt: z.string().min(1),
       caption: z.string().optional(),
       date: z.coerce.date(),
+      order: z.number().int(),
     }),
 });
 

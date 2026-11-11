@@ -3,22 +3,28 @@ import Base from "../../layouts/Base.astro";
 import { site } from "../../site";
 ---
 
-<Base title="Donate" description="Donate money or items to Operation In My Backyard. Your gift pays for hot meals, cold weather gear, naloxone, test strips, and safer consumption kits in Kensington.">
+<Base title="Donate" description="Donate money or items to Operation In My Backyard's weekly harm reduction outreach in Kensington, Philadelphia.">
   <h1>Donate</h1>
-  <p>Your donation pays for hot meals, new socks and cold weather gear, hygiene items, naloxone, test strips, safer consumption kits, and more. Sterile supplies mean less disease and fewer overdose deaths. Operation In My Backyard is a 501(c)(3), so your gift is tax-deductible.</p>
+  <p>Everything we hand out on {site.outreach.day}s is paid for by people like you. Sterile supplies help prevent disease, and naloxone and test strips help prevent overdose deaths. Operation In My Backyard is a 501(c)(3), so your gift is tax-deductible.</p>
 
-  <h2>Funds</h2>
+  <h2>Give money</h2>
   {site.zeffy.embedUrl ? (
     <iframe title="Donation form" src={site.zeffy.embedUrl} width="100%" height="1200" loading="lazy" allow="payment"></iframe>
   ) : null}
-  <ul class="link-list">
-    <li><a href={site.links.venmo}>Venmo (@OpImby)</a></li>
+  <ul class="link-list actions">
+    <li>
+      <a href={site.links.venmo}>Venmo (@OpImby)</a>
+      <p class="secondary-text">Venmo doesn't send a receipt. If you need one for taxes, email <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+    </li>
     <li><a href={site.links.paypal}>PayPal Giving Fund</a></li>
   </ul>
 
-  <h2>Items</h2>
-  <p>We take coats, shoes, blankets, food and drinks, snacks, desserts, books, and whatever else helps folks get through life on the street. Bring it by outreach any Tuesday at 6pm at Ruth and Somerset or arrange a pickup by clicking the link below.</p>
-  <ul class="link-list">
+  <h2>Give things</h2>
+  <p>Right now we need cold weather gear most: coats, hats, gloves, socks, blankets and hand warmers. Hygiene items go fast all year, especially travel sizes that are easy to carry: toothbrushes and toothpaste, deodorant, body wipes, soap, shampoo, lotion, lip balm, tissues, razors, and pads and tampons.</p>
+  <p>We also take shoes, books, food and drinks (homemade is great), and whatever else helps folks get through life on the street.</p>
+  <p>Socks and underwear have to be new. Everything else should be washed and in good shape, and food should be sealed or freshly made. If you wouldn't give it to a friend, please don't give it to us.</p>
+  <p>Bring it to outreach any {site.outreach.day} at {site.outreach.time} at {site.outreach.place}, or we can pick it up.</p>
+  <ul class="link-list actions">
     <li><a href="/donate/items/">Tell us what you're bringing or ask for a pickup</a></li>
     <li><a href={site.links.amazonWishlist}>Amazon Wish List</a></li>
   </ul>

@@ -20,7 +20,7 @@ const SITE_NAV: NavItem[] = [
   { href: "/volunteer/", label: "Volunteer" },
 ];
 
-const { title, description = "A harm reduction advocacy group in Kensington, Philadelphia. Every Tuesday we hand out hot meals, coats and cold weather gear, hygiene items, naloxone, test strips, safer consumption kits, and more.", nav = SITE_NAV, footer = true, noindex = false } = Astro.props;
+const { title, description = "A harm reduction outreach group in Kensington, Philadelphia, looking out for people experiencing homelessness and people who use drugs since 2018.", nav = SITE_NAV, footer = true, noindex = false } = Astro.props;
 const pageTitle = title ? `${title} | ${site.name}` : site.name;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const previewImage = new URL("/icon-512.png", Astro.site);
@@ -80,7 +80,7 @@ const current = (href: string) => (path === href ? "page" : !isRoot(href) && pat
 
     {footer && (
     <footer>
-      <nav aria-label="Social">
+      <nav aria-label="Footer">
         <ul>
           <li><a href={site.links.instagram}>Instagram</a></li>
           <li><a href={site.links.facebook}>Facebook</a></li>

@@ -1,9 +1,13 @@
 ---
 import Base from "../../../layouts/Base.astro";
+import { site } from "../../../site";
 ---
 
-<Base title="Thanks" noindex>
-  <h1>Thanks</h1>
-  <p>Thank you! We'll reach out to coordinate.</p>
-  <p class="standalone"><a href="/">Back to home</a></p>
+<Base title="Thanks for letting us know" noindex>
+  <h1>Thanks for letting us know</h1>
+  <p>We'll email you to coordinate.</p>
+  <ul class="link-list actions">
+    <li><a href={site.links.instagram}>Follow us on Instagram</a></li>
+    <li><a href="/">Back to home</a></li>
+  </ul>
 </Base>

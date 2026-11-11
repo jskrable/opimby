@@ -5,8 +5,11 @@ import Field from "../../components/form/Field.astro";
 import Form from "../../components/form/Form.astro";
 import { formErrors, submittedValues } from "../../components/form/state";
 import { CONTACT_MAX, CONTACT_MESSAGES } from "../../forms/common";
-import { VOLUNTEER_INTEREST_LABELS, VOLUNTEER_INTERESTS, VOLUNTEER_MAX } from "../../forms/volunteer";
+import { VOLUNTEER_INTEREST_SHORT_LABELS, VOLUNTEER_INTERESTS, VOLUNTEER_MAX } from "../../forms/volunteer";
 import Base from "../../layouts/Base.astro";
+import { site } from "../../site";
+
+const { outreach, office, kitMaking } = site;
 
 export const prerender = false;
 
@@ -16,17 +19,23 @@ if (result && !result.error) return Astro.redirect("/volunteer/thanks/", 303);
 const errors = formErrors(result?.error);
 const values = await submittedValues(Astro, result?.error);
 const value = (name: string) => values.get(name)?.toString();
-const interests = VOLUNTEER_INTERESTS.map((v) => ({ value: v, label: VOLUNTEER_INTEREST_LABELS[v] }));
+const interests = VOLUNTEER_INTERESTS.map((v) => ({ value: v, label: VOLUNTEER_INTEREST_SHORT_LABELS[v] }));
 ---
 
 <Base title={errors ? "Error: Volunteer" : "Volunteer"} description="Volunteer with Operation In My Backyard at our weekly harm reduction outreach in Kensington, Philadelphia. No experience needed.">
   <h1>Volunteer</h1>
-  <p>We're always looking for people who want to help, and you don't need any experience. Tell us a little about yourself below and we'll reach out.</p>
+  <p>You don't need any experience. Sign up below and we'll get in touch about your first outreach or kit making. We run naloxone trainings regularly, so you'll learn as you go.</p>
 
-  <h2>What we need help with</h2>
-  <ul>
-    {interests.map((i) => <li>{i.label}</li>)}
-  </ul>
+  <h2>Outreach</h2>
+  <p>Every {outreach.day} at {outreach.time} at {outreach.place}. Dress for the weather. On your first night you'll probably be serving food or handing out clothes.</p>
+
+  <h2>Kit making</h2>
+  <p>On a {kitMaking.day} {kitMaking.frequency}, we meet at {office} to pack the kits we hand out at outreach. It takes {kitMaking.length}, and we'll send the details once you sign up.</p>
+
+  <h2>Donation pickups</h2>
+  <p>Help us collect donations from people who can't bring them to outreach, whenever you can make it. A car helps for bigger loads but isn't a must.</p>
+
+  <h2>Sign up</h2>
 
   <Form action={actions.volunteer} submitLabel="Sign up" errors={errors}>
     <Field name="name" label="Name" autocomplete="name" maxlength={CONTACT_MAX.name} required requiredMessage={CONTACT_MESSAGES.name} value={value("name")} error={errors?.fields.name} />

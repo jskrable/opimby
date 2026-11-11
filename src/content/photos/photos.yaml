@@ -1,11 +1,25 @@
-# Images live next to this file; the page sorts by date, newest first. No identifiable participants.
-- id: packing-bags
-  image: ./packing-bags.jpeg
-  caption: "Packing bags during Sunday kitmaking."
-  alt: "Volunteers packing rows of brown paper bags on a long table."
-  date: 2025-08-17
+# Images live next to this file; the page shows them by `order`, lowest first. No identifiable participants.
+- id: naloxone-training-demo
+  image: ./naloxone-training-demo.jpeg
+  caption: "Nicole, our founder, teaching how to respond to an overdose."
+  alt: "Nicole demonstrating on a CPR training mannequin at a table, with a box of Narcan beside it, under an Operation In My Backyard banner."
+  date: 2026-10-25
+  order: 1
 - id: overdose-awareness-banner
   image: ./overdose-awareness-banner.jpeg
   caption: "Holding our banner for Overdose Awareness."
   alt: "A group holding a hand-painted purple Overdose Awareness banner outside a station entrance."
   date: 2025-08-25
+  order: 2
+- id: packing-bags
+  image: ./packing-bags.jpeg
+  caption: "Packing bags at Sunday kit making."
+  alt: "Volunteers packing rows of brown paper bags on a long table."
+  date: 2025-08-17
+  order: 3
+- id: naloxone-training-room
+  image: ./naloxone-training-room.jpeg
+  caption: "A naloxone training at our office in Kensington."
+  alt: "Nicole teaching from the end of a table while people listen, under a rainbow flag and the Operation In My Backyard banner."
+  date: 2026-10-25
+  order: 4

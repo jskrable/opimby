@@ -16,8 +16,9 @@ export function createDonationService(repo: DonationRepository, verifyHuman: Hum
       const screen = await screenSubmission(bot, verifyHuman, ip);
       if (screen !== "human") return { status: screen };
 
-      const id = await repo.create(submission);
-      notify(donationNotification(submission, id));
+      const donation = submission.method === "pickup" ? submission : { ...submission, area: null };
+      const id = await repo.create(donation);
+      notify(donationNotification(donation, id));
       return { status: "saved" };
     },
 
