@@ -11,10 +11,11 @@ const progress = await fundraising.progress(site.zeffy.sponsorCampaignId);
 const dollars = (n: number) => `$${n.toLocaleString("en-US")}`;
 ---
 
-<Base title={`Sponsor a ${day}`} description={`Sponsor a ${day} outreach night in Kensington, Philadelphia. $1,250 covers one whole night.`}>
-  <h1>Sponsor a {day}</h1>
-  <p>Every {day} at {time} we set up at {place} in Kensington and hand out hot meals, hygiene items, wound care, safer consumption kits, safer sex supplies and more to about 100 people.</p>
-  <p>$1,250 covers a whole night. We're raising $6,250 to cover five {day}s. Every gift, whatever the size, goes into one pool.</p>
+<Base title="Sponsor an outreach" description="Sponsor a January outreach in Kensington, Philadelphia. $1,250 covers one night.">
+  <h1>Sponsor an outreach</h1>
+  <p>Around the holidays, a lot of people come out to help. In January most of them have gone home, and it's the coldest month of the year.</p>
+  <p>We'll be out every {day} at {time} at {place} in Kensington, handing out hot meals, cold weather kits, hygiene items, wound care, safer consumption kits, safer sex supplies and more to about 100 people.</p>
+  <p>One outreach costs $1,250. We're raising $6,250 to cover all four in January, with the rest going to extra cold weather kits. Every gift goes into one pool, whatever the size.</p>
   <p>You can give in honor or in memory of someone. {site.name} is a 501(c)(3), so your gift is tax-deductible.</p>
 
   {progress && (
@@ -25,7 +26,7 @@ const dollars = (n: number) => `$${n.toLocaleString("en-US")}`;
   )}
 
   <ul class="link-list actions">
-    <ZeffyLink href={site.zeffy.sponsor} label={`Sponsor a ${day} on Zeffy`} />
+    <ZeffyLink href={site.zeffy.sponsor} label="Sponsor an outreach on Zeffy" />
     <li><a href="/donate/">Other ways to donate</a></li>
   </ul>
 </Base>

@@ -7,6 +7,7 @@ export const site = {
   email: "info@opimby.org",
   links: {
     instagram: "https://www.instagram.com/op_imby/",
+    tiktok: "https://www.tiktok.com/@opimby",
     facebook: "https://www.facebook.com/OPIMBY/",
     amazonWishlist: "https://www.amazon.com/hz/wishlist/ls/282AJ6MNXDPBB",
     venmo: "https://venmo.com/u/OpImby",
