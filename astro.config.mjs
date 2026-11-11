@@ -18,13 +18,13 @@ export default defineConfig({
     csp: {
       directives: [
         "default-src 'self'",
-        "frame-src https://challenges.cloudflare.com https://www.zeffy.com",
+        "frame-src https://challenges.cloudflare.com",
         "form-action 'self'",
         "base-uri 'self'",
         "object-src 'none'",
       ],
       // Cloudflare Web Analytics is injected at the edge (auto-install) and reports to our own /cdn-cgi/rum.
-      scriptDirective: { resources: ["'self'", "https://challenges.cloudflare.com", "https://static.cloudflareinsights.com", "https://www.zeffy.com"] },
+      scriptDirective: { resources: ["'self'", "https://challenges.cloudflare.com", "https://static.cloudflareinsights.com"] },
     },
   },
   env: {

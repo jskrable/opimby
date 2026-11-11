@@ -20,10 +20,11 @@ export const site = {
     { name: "Love Works Resource Center", url: "https://www.loveworksrc.org/" },
     { name: "In Kind Baking Project", url: "https://www.inkindbakingproject.org/" },
   ],
-  // Zeffy form paths, as in the form's link after "https://www.zeffy.com/en-US/".
   zeffy: {
-    donate: "donation-form/donate-to-change-lives-26031",
-    sponsor: "donation-form/sponsor-an-outreach",
+    donate: "https://www.zeffy.com/en-US/donation-form/donate-to-change-lives-26031",
+    sponsor: "https://www.zeffy.com/en-US/donation-form/sponsor-an-outreach",
+    // From GET https://api.zeffy.com/api/v1/campaigns.
+    sponsorCampaignId: "6288e341-569f-4a9c-9d33-7714c25e9b4a",
   },
   turnstileSiteKey: TURNSTILE_SITE_KEY,
 } as const;

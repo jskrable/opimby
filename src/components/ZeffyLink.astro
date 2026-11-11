@@ -1,0 +1,13 @@
+---
+interface Props {
+  href: string;
+  label: string;
+}
+
+const { href, label } = Astro.props;
+---
+
+<li>
+  <a href={href}>{label}</a>
+  <p class="secondary-text">Why Zeffy: it charges us nothing, so all of your gift goes to outreach. It pays for itself by suggesting a tip for Zeffy at checkout (17% by default). That's optional: choose Other and enter 0.</p>
+</li>

@@ -1,9 +1,14 @@
 ---
+import ZeffyLink from "../../../components/ZeffyLink.astro";
 import Base from "../../../layouts/Base.astro";
-import ZeffyForm from "../../../components/ZeffyForm.astro";
+import { fundraising } from "../../../server/container";
 import { site } from "../../../site";
 
+export const prerender = false;
+
 const { day, time, place } = site.outreach;
+const progress = await fundraising.progress(site.zeffy.sponsorCampaignId);
+const dollars = (n: number) => `$${n.toLocaleString("en-US")}`;
 ---
 
 <Base title={`Sponsor a ${day}`} description={`Sponsor a ${day} outreach night in Kensington, Philadelphia. $1,250 covers one whole night.`}>
@@ -12,14 +17,15 @@ const { day, time, place } = site.outreach;
   <p>$1,250 covers a whole night. We're raising $6,250 to cover five {day}s. Every gift, whatever the size, goes into one pool.</p>
   <p>You can give in honor or in memory of someone. {site.name} is a 501(c)(3), so your gift is tax-deductible.</p>
 
-  {site.zeffy.sponsor && (
-    <>
-      <iframe class="zeffy-thermometer" title="Progress toward the goal" src={`https://www.zeffy.com/embed/thermometer/${site.zeffy.sponsor.split("/").pop()}`}></iframe>
-      <ZeffyForm form={site.zeffy.sponsor} title="Sponsor donation form" />
-    </>
+  {progress && (
+    <div class="campaign-progress">
+      <p id="raised"><strong>{dollars(progress.raised)}</strong> raised of {dollars(progress.goal)}</p>
+      <progress aria-labelledby="raised" value={Math.min(progress.raised, progress.goal)} max={progress.goal}></progress>
+    </div>
   )}
 
   <ul class="link-list actions">
+    <ZeffyLink href={site.zeffy.sponsor} label={`Sponsor a ${day} on Zeffy`} />
     <li><a href="/donate/">Other ways to donate</a></li>
   </ul>
 </Base>

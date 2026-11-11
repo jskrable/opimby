@@ -32,7 +32,7 @@
     "ACCESS_AUD": "843633c49bfda0077e57414df31d56027cbb94c29bcf9bbcf2cad46f3600d638"
   },
   "secrets": {
-    "required": ["TURNSTILE_SECRET_KEY"]
+    "required": ["TURNSTILE_SECRET_KEY", "ZEFFY_API_KEY"]
   },
   "observability": {
     // Off so volunteers' personal info never lands in request logs.
@@ -62,7 +62,7 @@
         "ADMIN_DEV_BYPASS": "true"
       },
       "secrets": {
-        "required": ["TURNSTILE_SECRET_KEY"]
+        "required": ["TURNSTILE_SECRET_KEY", "ZEFFY_API_KEY"]
       }
     }
   }
