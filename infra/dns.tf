@@ -40,12 +40,11 @@ resource "cloudflare_dns_record" "google_dkim" {
   proxied = false
 }
 
-# TODO: move to p=quarantine once the reports show Google and the Worker's NOTIFY mail both pass.
 resource "cloudflare_dns_record" "dmarc" {
   zone_id = local.zone_id
   name    = "_dmarc.opimby.org"
   type    = "TXT"
-  content = "\"v=DMARC1; p=none; rua=mailto:info@opimby.org\""
+  content = "\"v=DMARC1; p=quarantine; rua=mailto:info@opimby.org\""
   ttl     = 3600
   proxied = false
 }
