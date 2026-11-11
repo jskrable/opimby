@@ -1,14 +1,46 @@
 ---
 import Base from "../../../../layouts/Base.astro";
 import { site } from "../../../../site";
+
+const sponsorUrl = new URL("/donate/sponsor/", Astro.site).href;
 ---
 
 <Base title="Thank you" noindex>
   <h1>Thank you</h1>
-  <p>Your gift goes toward our {site.outreach.day} outreach. Your tax receipt is on its way by email.</p>
-  <p>Know someone who'd want to help? Send them to <a href="/donate/sponsor/">opimby.org/donate/sponsor</a>.</p>
+  <p>Your gift is in the pool for five {site.outreach.day}s of outreach. Your tax receipt is on its way by email.</p>
+  <p>The fastest way to fill the bar is to pass it on.</p>
+  <p>
+    <button type="button" hidden data-share={sponsorUrl} data-share-title={`Sponsor a ${site.outreach.day}`}>Share the sponsor page</button>
+  </p>
+  <p class="secondary-text" role="status" data-share-status></p>
+  <noscript><p>Send people to <a href="/donate/sponsor/">opimby.org/donate/sponsor</a>.</p></noscript>
   <ul class="link-list actions">
     <li><a href={site.links.instagram}>Follow us on Instagram</a></li>
     <li><a href="/">Back to home</a></li>
   </ul>
 </Base>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>("[data-share]");
+  const status = document.querySelector<HTMLElement>("[data-share-status]");
+  if (button && status) {
+    const url = button.dataset.share!;
+    const title = button.dataset.shareTitle!;
+    const canShare = typeof navigator.share === "function";
+    if (!canShare) button.textContent = "Copy the link";
+    button.hidden = false;
+    button.addEventListener("click", async () => {
+      if (canShare) {
+        // Closing the share sheet rejects; nothing to report.
+        await navigator.share({ title, url }).catch(() => {});
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(url);
+        status.textContent = "Link copied.";
+      } catch {
+        status.textContent = `Couldn't copy. The link is ${url}`;
+      }
+    });
+  }
+</script>
