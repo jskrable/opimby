@@ -9,6 +9,10 @@ export const prerender = false;
 const { day, time, place } = site.outreach;
 const progress = await fundraising.progress(site.zeffy.sponsorCampaignId);
 const dollars = (n: number) => `$${n.toLocaleString("en-US")}`;
+const { outreachCost, outreaches } = site.sponsor;
+const percent = progress && Math.floor((progress.raised / progress.goal) * 100);
+const covered = progress && Math.min(outreaches, Math.floor(progress.raised / outreachCost));
+const ticks = progress ? Array.from({ length: outreaches }, (_, i) => `${(((i + 1) * outreachCost) / progress.goal) * 100}%`) : [];
 ---
 
 <Base title="Sponsor an outreach" description="Sponsor a January outreach in Kensington, Philadelphia. $1,250 covers one night.">
@@ -20,8 +24,17 @@ const dollars = (n: number) => `$${n.toLocaleString("en-US")}`;
 
   {progress && (
     <div class="campaign-progress">
-      <p id="raised"><strong>{dollars(progress.raised)}</strong> raised of {dollars(progress.goal)}</p>
-      <progress aria-labelledby="raised" value={Math.min(progress.raised, progress.goal)} max={progress.goal}></progress>
+      <p class="campaign-figures">
+        <span id="raised"><strong>{dollars(progress.raised)}</strong> raised of {dollars(progress.goal)}</span>
+        <span class="campaign-percent">{percent}%</span>
+      </p>
+      <div class="campaign-bar">
+        <progress aria-labelledby="raised" value={Math.min(progress.raised, progress.goal)} max={progress.goal}></progress>
+        <svg class="campaign-ticks" aria-hidden="true" focusable="false">
+          {ticks.map((x) => <line x1={x} x2={x} y1="0" y2="100%" />)}
+        </svg>
+      </div>
+      <p class="campaign-covered">Covers {covered} of {outreaches} outreaches</p>
     </div>
   )}
 

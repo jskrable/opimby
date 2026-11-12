@@ -27,5 +27,6 @@ export const site = {
     // From GET https://api.zeffy.com/api/v1/campaigns.
     sponsorCampaignId: "6288e341-569f-4a9c-9d33-7714c25e9b4a",
   },
+  sponsor: { outreachCost: 1250, outreaches: 4 },
   turnstileSiteKey: TURNSTILE_SITE_KEY,
 } as const;
